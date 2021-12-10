@@ -84,44 +84,66 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter place of departure';
-                }
-                return null;
-              },
-              controller: volumeController,
-              decoration: InputDecoration(
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter place of departure';
+                  }
+                  return null;
+                },
+                controller: volumeController,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: volumeController.clear,
+                    icon: Icon(Icons.clear),
+                  ),
+                  border: OutlineInputBorder(),
                   labelText: "Desired Volume in ml",
-                  border: InputBorder.none,
-                  hintText: 'How much are you trying to make?'),
+                  hintText: 'How much are you trying to make?',
+                ),
+              ),
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter place of departure';
-                }
-                return null;
-              },
-              controller: fromPercentController,
-              decoration: InputDecoration(
-                  labelText: "ABV of source",
-                  border: InputBorder.none,
-                  hintText: 'current ABV'),
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter place of departure';
+                  }
+                  return null;
+                },
+                controller: fromPercentController,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: fromPercentController.clear,
+                      icon: Icon(Icons.clear),
+                    ),
+                    border: OutlineInputBorder(),
+                    labelText: "ABV of source",
+                    hintText: 'current ABV'),
+              ),
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter place of departure';
-                }
-                return null;
-              },
-              controller: toPercentController,
-              decoration: InputDecoration(
-                  labelText: "Desired final ABV",
-                  border: InputBorder.none,
-                  hintText: 'What ABV do you want?'),
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter place of departure';
+                  }
+                  return null;
+                },
+                controller: toPercentController,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: toPercentController.clear,
+                      icon: Icon(Icons.clear),
+                    ),
+                    border: OutlineInputBorder(),
+                    labelText: "Desired final ABV",
+                    hintText: 'What ABV do you want?'),
+              ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
@@ -142,12 +164,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                 child: Text('Calculate!'),
               ),
             ]),
-            TextFormField(
-              controller: answerSourceController,
-              readOnly: true,
-              decoration: InputDecoration(
-                  labelText: "Add this much of your spirit",
-                  border: InputBorder.none),
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                controller: answerSourceController,
+                readOnly: true,
+                decoration: InputDecoration(
+                    labelText: "Add this much of your spirit",
+                    border: InputBorder.none),
+              ),
             ),
             TextFormField(
               controller: answerWaterController,
