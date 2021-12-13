@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class _FooterMenuState extends State<FooterMenu> {
   int _selectedIndex = 0;

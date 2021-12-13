@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../util/maths.dart';
+import '../util/maths.dart';
 //import 'package:still_it/screens/home/maths.dart';
 
-class DillutionPage extends StatefulWidget {
-  DillutionPage({Key? key}) : super();
+class VolumePage extends StatefulWidget {
+  VolumePage({Key? key}) : super();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,10 +18,10 @@ class DillutionPage extends StatefulWidget {
   final String title = "Volume";
 
   @override
-  _DillutionPageState createState() => _DillutionPageState();
+  _VolumePageState createState() => _VolumePageState();
 }
 
-class _DillutionPageState extends State<DillutionPage> {
+class _VolumePageState extends State<VolumePage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -32,7 +32,7 @@ class _DillutionPageState extends State<DillutionPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dillution Calculator"),
+        title: const Text("Bottle Volume Calculator"),
       ),
       body: const MyCustomForm(),
     );
@@ -78,50 +78,71 @@ class MyCustomFormState extends State<MyCustomForm> {
             RichText(
               text: TextSpan(
                 text:
-                    'Have a jar of high % and want to adjust it down? This is the calculator for that',
+                    'Commonly called a Bottle Dilution, make an amount of spirits in a desired % ',
                 style: DefaultTextStyle.of(context)
                     .style
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return '';
-                }
-                return null;
-              },
-              controller: volumeController,
-              decoration: InputDecoration(
-                  labelText: "Volume",
-                  border: InputBorder.none,
-                  hintText: 'current Volume'),
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your desired volume';
+                  }
+                  return null;
+                },
+                controller: volumeController,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: volumeController.clear,
+                    icon: Icon(Icons.clear),
+                  ),
+                  border: OutlineInputBorder(),
+                  labelText: "Desired Volume in ml",
+                ),
+              ),
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return '';
-                }
-                return null;
-              },
-              controller: fromPercentController,
-              decoration: InputDecoration(
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter source ABV';
+                  }
+                  return null;
+                },
+                controller: fromPercentController,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: fromPercentController.clear,
+                    icon: Icon(Icons.clear),
+                  ),
+                  border: OutlineInputBorder(),
                   labelText: "ABV of source",
-                  border: InputBorder.none,
-                  hintText: 'current ABV'),
+                ),
+              ),
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter your desired ABV';
-                }
-                return null;
-              },
-              controller: toPercentController,
-              decoration: InputDecoration(
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter desired final ABV';
+                  }
+                  return null;
+                },
+                controller: toPercentController,
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    onPressed: toPercentController.clear,
+                    icon: Icon(Icons.clear),
+                  ),
+                  border: OutlineInputBorder(),
                   labelText: "Desired final ABV",
-                  border: InputBorder.none,
-                  hintText: 'What ABV do you want?'),
+                ),
+              ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
@@ -129,18 +150,29 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var val = Maths.dillution(
+                    var vals = Maths.volume(
                         int.parse(volumeController.text),
                         int.parse(fromPercentController.text),
                         int.parse(toPercentController.text));
 
-                    answerWaterController.text = val.toString();
+                    answerSourceController.text = vals[0].toString();
+                    answerWaterController.text = vals[1].toString();
                     setState(() {});
                   }
                 },
                 child: Text('Calculate!'),
               ),
             ]),
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                controller: answerSourceController,
+                readOnly: true,
+                decoration: InputDecoration(
+                    labelText: "Add this much of your spirit",
+                    border: InputBorder.none),
+              ),
+            ),
             TextFormField(
               controller: answerWaterController,
               readOnly: true,

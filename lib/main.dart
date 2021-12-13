@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:still_it/routes.dart';
-import 'package:still_it/screens/home/home.dart';
+import 'package:still_it/screens/home.dart';
 import 'package:still_it/theme/colors/light_colors.dart';
 
 void main() {
@@ -13,13 +13,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+            color: LightColors.kDarkYellow,
+            foregroundColor: LightColors.kDarkBlue),
+        scaffoldBackgroundColor: LightColors.kLightYellow,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(primary: LightColors.kDarkYellow)),
         textTheme: Theme.of(context).textTheme.apply(
             bodyColor: LightColors.kDarkBlue,
             displayColor: LightColors.kDarkBlue,
             fontFamily: 'Poppins'),
       ),
-      title: 'Still it Calculator',
+      title: 'Distillers Calculator',
       home: HomePage(),
       routes: routes,
     );

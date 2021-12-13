@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:still_it/theme/colors/light_colors.dart';
 
-import '../../util/maths.dart';
+import '../util/maths.dart';
 //import 'package:still_it/screens/home/maths.dart';
 
-class VolumePage extends StatefulWidget {
-  VolumePage({Key? key}) : super();
+class SGPage extends StatefulWidget {
+  SGPage({Key? key}) : super();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,10 +19,10 @@ class VolumePage extends StatefulWidget {
   final String title = "Volume";
 
   @override
-  _VolumePageState createState() => _VolumePageState();
+  _SGPageState createState() => _SGPageState();
 }
 
-class _VolumePageState extends State<VolumePage> {
+class _SGPageState extends State<SGPage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -32,7 +33,14 @@ class _VolumePageState extends State<VolumePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bottle Volume Calculator"),
+        title: const Text("ABV From Specific Gravity",
+            style: TextStyle(
+                color: LightColors.kDarkBlue,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2)),
+        backgroundColor: LightColors.kDarkYellow,
+        foregroundColor: LightColors.kDarkBlue,
       ),
       body: const MyCustomForm(),
     );
@@ -59,11 +67,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController volumeController = TextEditingController();
-  TextEditingController fromPercentController = TextEditingController();
-  TextEditingController toPercentController = TextEditingController();
-  TextEditingController answerSourceController = TextEditingController();
-  TextEditingController answerWaterController = TextEditingController();
+  TextEditingController sg1Controller = TextEditingController();
+  TextEditingController sg2Controller = TextEditingController();
+  TextEditingController answerController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +84,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             RichText(
               text: TextSpan(
                 text:
-                    'Commonly called a Bottle Dilution, make an amount of spirits in a desired % ',
+                    'Simple ABV calculator based on your Start and end Specific Gravity',
                 style: DefaultTextStyle.of(context)
                     .style
                     .apply(fontSizeFactor: 2.0),
@@ -89,19 +95,18 @@ class MyCustomFormState extends State<MyCustomForm> {
               child: TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter place of departure';
+                    return 'Enter your starting SG';
                   }
                   return null;
                 },
-                controller: volumeController,
+                controller: sg1Controller,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
-                    onPressed: volumeController.clear,
+                    onPressed: sg1Controller.clear,
                     icon: Icon(Icons.clear),
                   ),
                   border: OutlineInputBorder(),
-                  labelText: "Desired Volume in ml",
-                  hintText: 'How much are you trying to make?',
+                  labelText: 'Starting Specific Gravity',
                 ),
               ),
             ),
@@ -110,39 +115,19 @@ class MyCustomFormState extends State<MyCustomForm> {
               child: TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please enter place of departure';
+                    return 'Enter your ending Volume';
                   }
                   return null;
                 },
-                controller: fromPercentController,
+                controller: sg2Controller,
                 decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: fromPercentController.clear,
-                      icon: Icon(Icons.clear),
-                    ),
-                    border: OutlineInputBorder(),
-                    labelText: "ABV of source",
-                    hintText: 'current ABV'),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter place of departure';
-                  }
-                  return null;
-                },
-                controller: toPercentController,
-                decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: toPercentController.clear,
-                      icon: Icon(Icons.clear),
-                    ),
-                    border: OutlineInputBorder(),
-                    labelText: "Desired final ABV",
-                    hintText: 'What ABV do you want?'),
+                  suffixIcon: IconButton(
+                    onPressed: sg2Controller.clear,
+                    icon: Icon(Icons.clear),
+                  ),
+                  border: OutlineInputBorder(),
+                  labelText: "Ending Specific Gravity",
+                ),
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -151,13 +136,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var vals = Maths.volume(
-                        int.parse(volumeController.text),
-                        int.parse(fromPercentController.text),
-                        int.parse(toPercentController.text));
+                    var vals = Maths.abvFromSg(
+                      num.parse(sg1Controller.text),
+                      num.parse(sg2Controller.text),
+                    );
 
-                    answerSourceController.text = vals[0].toString();
-                    answerWaterController.text = vals[1].toString();
+                    answerController.text = vals.toString();
                     setState(() {});
                   }
                 },
@@ -167,19 +151,10 @@ class MyCustomFormState extends State<MyCustomForm> {
             Container(
               margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
               child: TextFormField(
-                controller: answerSourceController,
+                controller: answerController,
                 readOnly: true,
                 decoration: InputDecoration(
-                    labelText: "Add this much of your spirit",
-                    border: InputBorder.none),
-              ),
-            ),
-            TextFormField(
-              controller: answerWaterController,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: "Add this much water",
-                border: InputBorder.none,
+                    labelText: "Final ABV %", border: InputBorder.none),
               ),
             ),
           ],
