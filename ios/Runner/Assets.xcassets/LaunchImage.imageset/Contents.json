@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "1K_Png_Black_CTC-1.jpg",
+      "filename" : "still-2.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "1K_Png_Black_CTC.jpg",
+      "filename" : "still-1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "1K_Png_Black_CTC-2.jpg",
+      "filename" : "still.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }
