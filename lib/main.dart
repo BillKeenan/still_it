@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       title: 'Distillers Calculator',
       home: HomePage(),
+      debugShowCheckedModeBanner: false,
       routes: routes,
     );
   }
