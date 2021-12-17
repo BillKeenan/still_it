@@ -1,7 +1,7 @@
+import 'package:distillers_calculator/routes.dart';
+import 'package:distillers_calculator/screens/home.dart';
+import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:still_it/routes.dart';
-import 'package:still_it/screens/home.dart';
-import 'package:still_it/theme/colors/light_colors.dart';
 
 void main() {
   runApp(MyApp());

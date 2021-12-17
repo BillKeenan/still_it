@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.still_it">
+    package="net.bigmojo.net.distillers">
    <application
-        android:label="still_it"
+        android:label="distillers_calculator"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

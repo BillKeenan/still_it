@@ -1,7 +1,8 @@
+import 'package:distillers_calculator/helpers/number_field.dart';
 import 'package:flutter/material.dart';
 
 import '../util/maths.dart';
-//import 'package:still_it/screens/home/maths.dart';
+//import 'package:distillers_calculator/screens/home/maths.dart';
 
 class VolumePage extends StatefulWidget {
   VolumePage({Key? key}) : super();
@@ -31,11 +32,11 @@ class _VolumePageState extends State<VolumePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Bottle Volume Calculator"),
-      ),
-      body: const MyCustomForm(),
-    );
+        appBar: AppBar(
+          title: const Text("Bottle Volume Calculator"),
+        ),
+        body: const MyCustomForm(),
+        resizeToAvoidBottomInset: false);
   }
 }
 
@@ -71,7 +72,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -84,66 +85,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your desired volume';
-                  }
-                  return null;
-                },
-                controller: volumeController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: volumeController.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "Desired Volume in ml",
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter source ABV';
-                  }
-                  return null;
-                },
-                controller: fromPercentController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: fromPercentController.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "ABV of source",
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter desired final ABV';
-                  }
-                  return null;
-                },
-                controller: toPercentController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: toPercentController.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "Desired final ABV",
-                ),
-              ),
-            ),
+            NumberField.getNumberField(
+                volumeController, "Desired Volume in ml"),
+            NumberField.getNumberField(fromPercentController, "ABV of source"),
+            NumberField.getNumberField(
+                toPercentController, "Desired final ABV"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
@@ -157,6 +103,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
                     answerSourceController.text = vals[0].toString();
                     answerWaterController.text = vals[1].toString();
+                    FocusScope.of(context).requestFocus(FocusNode());
                     setState(() {});
                   }
                 },

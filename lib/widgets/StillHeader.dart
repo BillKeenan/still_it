@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:still_it/theme/colors/light_colors.dart';
+import 'package:distillers_calculator/theme/colors/light_colors.dart';
 
 import 'TopContainer.dart';
 

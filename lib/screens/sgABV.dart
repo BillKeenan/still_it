@@ -1,8 +1,9 @@
+import 'package:distillers_calculator/helpers/number_field.dart';
 import 'package:flutter/material.dart';
-import 'package:still_it/theme/colors/light_colors.dart';
+import 'package:distillers_calculator/theme/colors/light_colors.dart';
 
 import '../util/maths.dart';
-//import 'package:still_it/screens/home/maths.dart';
+//import 'package:distillers_calculator/screens/home/maths.dart';
 
 class SGPage extends StatefulWidget {
   SGPage({Key? key}) : super();
@@ -31,19 +32,21 @@ class _SGPageState extends State<SGPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("ABV From Specific Gravity",
-            style: TextStyle(
-                color: LightColors.kDarkBlue,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.2)),
-        backgroundColor: LightColors.kDarkYellow,
-        foregroundColor: LightColors.kDarkBlue,
-      ),
-      body: const MyCustomForm(),
-    );
+    return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text("ABV From Specific Gravity",
+                  style: TextStyle(
+                      color: LightColors.kDarkBlue,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2)),
+              backgroundColor: LightColors.kDarkYellow,
+              foregroundColor: LightColors.kDarkBlue,
+            ),
+            body: const MyCustomForm(),
+            resizeToAvoidBottomInset: false));
   }
 }
 
@@ -90,46 +93,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your starting SG';
-                  }
-                  return null;
-                },
-                controller: sg1Controller,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: sg1Controller.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: 'Starting Specific Gravity',
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your ending Volume';
-                  }
-                  return null;
-                },
-                controller: sg2Controller,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: sg2Controller.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "Ending Specific Gravity",
-                ),
-              ),
-            ),
+            NumberField.getNumberField(sg1Controller, "Starting SG"),
+            NumberField.getNumberField(sg2Controller, "Ending SG"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
@@ -144,6 +109,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     answerController.text = vals.toString();
                     setState(() {});
                   }
+                  FocusScope.of(context).requestFocus(FocusNode());
                 },
                 child: Text('Calculate!'),
               ),

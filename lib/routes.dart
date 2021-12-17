@@ -1,8 +1,8 @@
+import 'package:distillers_calculator/screens/sugar.dart';
 import 'package:flutter/widgets.dart';
-import 'package:still_it/screens/dillution.dart';
-import 'package:still_it/screens/sgABV.dart';
-import 'package:still_it/screens/volume.dart';
-import 'package:still_it/screens/sugar.dart';
+import 'package:distillers_calculator/screens/dillution.dart';
+import 'package:distillers_calculator/screens/sgABV.dart';
+import 'package:distillers_calculator/screens/volume.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/Volume": (BuildContext context) => VolumePage(),

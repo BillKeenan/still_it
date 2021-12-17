@@ -1,5 +1,5 @@
-name: still_it
-description: A new Flutter project.
+name: distillers_calculator
+description: Basic calculators for use in distillation
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -27,6 +27,7 @@ dependencies:
 
 dev_dependencies:
   test: 
+  flutter_lints:
 
 
 # For information on the generic Dart part of this file, see the

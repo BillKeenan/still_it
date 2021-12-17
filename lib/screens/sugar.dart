@@ -1,7 +1,8 @@
+import 'package:distillers_calculator/helpers/number_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../util/maths.dart';
-//import 'package:still_it/screens/home/maths.dart';
+//import 'package:distillers_calculator/screens/home/maths.dart';
 
 class SugarPage extends StatefulWidget {
   SugarPage({Key? key}) : super();
@@ -30,12 +31,14 @@ class _SugarPageState extends State<SugarPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sugar Wash Calculator"),
-      ),
-      body: const MyCustomForm(),
-    );
+    return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text("Sugar Wash Calculator"),
+            ),
+            body: const MyCustomForm(),
+            resizeToAvoidBottomInset: false));
   }
 }
 
@@ -84,46 +87,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Enter how much sugar you are using";
-                  }
-                  return null;
-                },
-                controller: sugarController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: sugarController.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "How Much Sugar in kg",
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-              child: TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your desired ending Volume';
-                  }
-                  return null;
-                },
-                controller: waterController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: waterController.clear,
-                    icon: Icon(Icons.clear),
-                  ),
-                  border: OutlineInputBorder(),
-                  labelText: "Desired Final Volume in Litres",
-                ),
-              ),
-            ),
+            NumberField.getNumberField(sugarController, "KG of Sugar"),
+            NumberField.getNumberField(waterController, "Volume of Water (L)"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
@@ -140,6 +105,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     answerABVController.text = vals[2].toString();
                     setState(() {});
                   }
+                  FocusScope.of(context).requestFocus(FocusNode());
                 },
                 child: Text('Calculate!'),
               ),
@@ -154,7 +120,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 0),
               child: TextFormField(
                 controller: answerWaterController,
                 readOnly: true,
@@ -163,7 +129,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 0),
               child: TextFormField(
                 controller: answerSGController,
                 readOnly: true,

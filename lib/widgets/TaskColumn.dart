@@ -20,7 +20,7 @@ class TaskColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
+    return GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, onTapNav);
         },

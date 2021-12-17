@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:still_it/theme/colors/light_colors.dart';
-import 'package:still_it/widgets/StillHeader.dart';
-import 'package:still_it/widgets/TaskColumn.dart';
+import 'package:distillers_calculator/theme/colors/light_colors.dart';
+import 'package:distillers_calculator/widgets/StillHeader.dart';
+import 'package:distillers_calculator/widgets/TaskColumn.dart';
 
 class HomePage extends StatelessWidget {
   Text subheading(String title) {
     return Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
           color: LightColors.kDarkBlue,
           fontSize: 20.0,
           fontWeight: FontWeight.w700,

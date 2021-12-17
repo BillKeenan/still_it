@@ -1,8 +1,9 @@
+import 'package:distillers_calculator/helpers/number_field.dart';
 import 'package:flutter/material.dart';
-import 'package:still_it/theme/colors/light_colors.dart';
+import 'package:distillers_calculator/theme/colors/light_colors.dart';
 
 import '../util/maths.dart';
-//import 'package:still_it/screens/home/maths.dart';
+//import 'package:distillers_calculator/screens/home/maths.dart';
 
 class DillutionPage extends StatefulWidget {
   DillutionPage({Key? key}) : super();
@@ -31,20 +32,22 @@ class _DillutionPageState extends State<DillutionPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Dillution Calculator",
-            style: TextStyle(
-                color: LightColors.kDarkBlue,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.2)),
-        backgroundColor: LightColors.kDarkYellow,
-        foregroundColor: LightColors.kDarkBlue,
-      ),
-      backgroundColor: LightColors.kLightYellow,
-      body: const MyCustomForm(),
-    );
+    return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text("Dillution Calculator",
+                  style: TextStyle(
+                      color: LightColors.kDarkBlue,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2)),
+              backgroundColor: LightColors.kDarkYellow,
+              foregroundColor: LightColors.kDarkBlue,
+            ),
+            backgroundColor: LightColors.kLightYellow,
+            body: const MyCustomForm(),
+            resizeToAvoidBottomInset: false));
   }
 }
 
@@ -93,51 +96,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30.0,
             ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter your starting Volume';
-                }
-                return null;
-              },
-              controller: volumeController,
-              decoration: InputDecoration(
-                  labelText: "Volume in Litres",
-                  border: OutlineInputBorder(),
-                  hintText: 'current Volume'),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter your source ABV';
-                }
-                return null;
-              },
-              controller: fromPercentController,
-              decoration: InputDecoration(
-                  labelText: "ABV of source", border: OutlineInputBorder()),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter your desired ABV';
-                }
-                return null;
-              },
-              controller: toPercentController,
-              decoration: InputDecoration(
-                  labelText: "Desired final ABV", border: OutlineInputBorder()),
-            ),
-            SizedBox(
+            NumberField.getNumberField(volumeController, "Volume in Litres"),
+            NumberField.getNumberField(fromPercentController, "Source ABV"),
+            NumberField.getNumberField(toPercentController, "Desired ABV"),
+            const SizedBox(
               height: 20.0,
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -154,8 +119,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     answerWaterController.text = val.toString();
                     setState(() {});
                   }
+                  FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: Text('Calculate!'),
+                child: const Text('Calculate!'),
               ),
             ]),
             SizedBox(
