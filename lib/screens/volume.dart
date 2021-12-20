@@ -1,4 +1,5 @@
 import 'package:distillers_calculator/helpers/number_field.dart';
+import 'package:distillers_calculator/util/table6.dart';
 import 'package:flutter/material.dart';
 
 import '../util/maths.dart';
@@ -96,13 +97,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var vals = Maths.volume(
+                    var vals = Table6.volume(
                         int.parse(volumeController.text),
                         int.parse(fromPercentController.text),
                         int.parse(toPercentController.text));
 
-                    answerSourceController.text = vals[0].toString();
-                    answerWaterController.text = vals[1].toString();
+                    answerSourceController.text =
+                        vals.VolumeOfSourceToAdd.toString();
+                    answerWaterController.text =
+                        vals.VolumeOfWaterToAdd.toString();
                     FocusScope.of(context).requestFocus(FocusNode());
                     setState(() {});
                   }

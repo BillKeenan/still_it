@@ -1,8 +1,8 @@
 import 'package:distillers_calculator/helpers/number_field.dart';
+import 'package:distillers_calculator/util/table6.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 
-import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class DillutionPage extends StatefulWidget {
@@ -90,10 +90,10 @@ class MyCustomFormState extends State<MyCustomForm> {
             RichText(
               text: TextSpan(
                 text:
-                    'Have a jar of high % and want to adjust it down? This is the calculator for that',
+                    'Have a jar of high % and want to adjust it down?\n This is the calculator for that',
                 style: DefaultTextStyle.of(context)
                     .style
-                    .apply(fontSizeFactor: 2.0),
+                    .apply(fontSizeFactor: 1.5),
               ),
             ),
             const SizedBox(
@@ -111,12 +111,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var val = Maths.dillution(
-                        int.parse(volumeController.text),
-                        int.parse(fromPercentController.text),
-                        int.parse(toPercentController.text));
+                    var val = Table6.dillution(
+                        num.parse(volumeController.text),
+                        num.parse(fromPercentController.text),
+                        num.parse(toPercentController.text));
 
-                    answerWaterController.text = val.toString();
+                    answerWaterController.text =
+                        val.VolumeOfWaterToAdd.toString();
                     setState(() {});
                   }
                   FocusScope.of(context).requestFocus(FocusNode());

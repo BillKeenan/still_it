@@ -115,7 +115,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               child: TextFormField(
                 controller: answerABVController,
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Expected Final ABV", border: InputBorder.none),
               ),
             ),
@@ -124,7 +124,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               child: TextFormField(
                 controller: answerWaterController,
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Add this much water", border: InputBorder.none),
               ),
             ),
@@ -133,7 +133,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               child: TextFormField(
                 controller: answerSGController,
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Expected Specific Gravity",
                     border: InputBorder.none),
               ),

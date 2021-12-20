@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:distillers_calculator/util/math_results.dart';
+
 class Maths {
   static List volume(
       int makeHowMuch, int fromWhatPercentage, int toWhatPercentage) {
@@ -10,14 +12,14 @@ class Maths {
     return [sourceSpirit.round(), (makeHowMuch - sourceSpirit).round()];
   }
 
-  static dillution(int volume, int startingABV, int desiredABV) {
+  static DilutionResult dillution(int volume, int startingABV, int desiredABV) {
     //v2 = (c1 * v1) / c2
 
     var v2 = (volume * startingABV) / desiredABV;
 
     var addWater = v2 - volume;
 
-    return addWater;
+    return DilutionResult(addWater);
   }
 
   static abvFromSg(num start, num end) {

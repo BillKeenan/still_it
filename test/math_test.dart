@@ -6,18 +6,24 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:distillers_calculator/util/maths.dart';
+import 'package:distillers_calculator/util/table6.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Volume Test', () {
-    var answer = Maths.volume(200, 55, 40);
-
-    expect(answer, [145, 55]);
+  test('Volume (bottle) Test', () {
+    var answer = Table6.volume(500, 80, 40);
+    expect(answer.VolumeOfSourceToAdd, 245);
+    expect(answer.VolumeOfWaterToAdd, 255);
   });
 
   test('Dillution Test', () {
-    var answer = Maths.dillution(1000, 55, 40);
-    expect(answer, 375);
+    var answer = Table6.dillution(1, 80, 40);
+    expect(answer.VolumeOfWaterToAdd, 1.04);
+  });
+
+  test('Dillution Test2', () {
+    var answer = Table6.dillution(100, 95.5, 94);
+    expect(answer.VolumeOfWaterToAdd, 1.84);
   });
 
   test('Sugar Wash Test', () {
@@ -29,5 +35,10 @@ void main() {
     var answer = Maths.abvFromSg(1.050, 1.010);
 
     expect(answer, 5.25);
+  });
+
+  test('table 6 test', () {
+    var answer = Table6.getVals(80);
+    expect(answer.Alcohol, 40);
   });
 }
