@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NumberField {
-  static getNumberField(TextEditingController controller, String labelText) {
+  static getNumberField(TextEditingController controller, String labelText,
+      [int? min, int? max]) {
     return Container(
       margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
       child: TextFormField(
@@ -10,6 +11,13 @@ class NumberField {
           if (value!.isEmpty) {
             return 'Please enter ' + labelText;
           }
+          if (min != null && num.parse(value) < min) {
+            return 'number can not be less than ' + min.toString();
+          }
+          if (max != null && num.parse(value) > max) {
+            return 'number can not be more than ' + max.toString();
+          }
+
           return null;
         },
         controller: controller,
