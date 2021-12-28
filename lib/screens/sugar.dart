@@ -37,7 +37,7 @@ class _SugarPageState extends State<SugarPage> {
             appBar: AppBar(
               title: const Text("Sugar Wash Calculator"),
             ),
-            body: const MyCustomForm(),
+            body: SingleChildScrollView(child: const MyCustomForm()),
             resizeToAvoidBottomInset: false));
   }
 }

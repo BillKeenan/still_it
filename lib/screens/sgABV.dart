@@ -6,8 +6,6 @@ import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class SGPage extends StatefulWidget {
-  SGPage({Key? key}) : super();
-
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -45,7 +43,7 @@ class _SGPageState extends State<SGPage> {
               backgroundColor: LightColors.kDarkYellow,
               foregroundColor: LightColors.kDarkBlue,
             ),
-            body: const MyCustomForm(),
+            body: SingleChildScrollView(child: const MyCustomForm()),
             resizeToAvoidBottomInset: false));
   }
 }

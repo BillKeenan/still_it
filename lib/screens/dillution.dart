@@ -46,7 +46,7 @@ class _DillutionPageState extends State<DillutionPage> {
               foregroundColor: LightColors.kDarkBlue,
             ),
             backgroundColor: LightColors.kLightYellow,
-            body: const MyCustomForm(),
+            body: SingleChildScrollView(child: const MyCustomForm()),
             resizeToAvoidBottomInset: false));
   }
 }

@@ -36,7 +36,7 @@ class _VolumePageState extends State<VolumePage> {
         appBar: AppBar(
           title: const Text("Bottle Volume Calculator"),
         ),
-        body: const MyCustomForm(),
+        body: SingleChildScrollView(child: const MyCustomForm()),
         resizeToAvoidBottomInset: false);
   }
 }
