@@ -1,5 +1,5 @@
 import 'package:distillers_calculator/helpers/number_field.dart';
-import 'package:distillers_calculator/util/table6.dart';
+import 'package:distillers_calculator/classes/table6.dart';
 import 'package:flutter/material.dart';
 
 import '../util/maths.dart';

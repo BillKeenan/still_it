@@ -1,8 +1,23 @@
 import 'dart:math';
+import 'dart:developer' as dev;
 
+import 'package:distillers_calculator/classes/specific_gravity.dart';
 import 'package:distillers_calculator/util/math_results.dart';
+import 'package:sprintf/sprintf.dart';
 
 class Maths {
+  static num dropMoreThan2Decimals(input) {
+    return (input * 100).toInt() / 100;
+  }
+
+  static double roundTo2Decimals(num input) {
+    return roundToXDecimals(input, 2);
+  }
+
+  static roundToXDecimals(num input, int i) {
+    return double.parse(input.toStringAsFixed(i));
+  }
+
   static List volume(
       int makeHowMuch, int fromWhatPercentage, int toWhatPercentage) {
     var sourceSpirit = (makeHowMuch /
@@ -22,10 +37,14 @@ class Maths {
     return DilutionResult(addWater);
   }
 
-  static abvFromSg(num start, num end) {
+  static abvFromSg(SpecificGravity start, SpecificGravity end) {
     //v2 = (c1 * v1) / c2
 
-    var abv = num.tryParse(((start - end) * 131.25).toStringAsFixed(2));
+    var abv = num.tryParse(((start.sg - end.sg) * 131.25).toStringAsFixed(2));
+
+    dev.log(
+        sprintf('abvFromSg:Converted %s and %s to %s', [start.sg, end.sg, abv]),
+        name: 'bigmojo.net.debug');
 
     return abv;
   }
@@ -48,5 +67,41 @@ class Maths {
         ((sugarKG * 1000) / 17 / litres * 10 / 10).toStringAsFixed(1));
 
     return [sg, waterNeeded, abv];
+  }
+
+  static double celciusToFarenheight(num celcius) {
+    var f = celcius * (9 / 5) + 32;
+
+    dev.log(sprintf('celciusToFarenheight:Converted %s to %s', [celcius, f]),
+        name: 'bigmojo.net.debug');
+
+    return f;
+  }
+
+  static SpecificGravity sgTempAdjust(
+      SpecificGravity sg, num temperatureCelcius) {
+    //cg = mg * ((1.00130346 - 0.000134722124 * tr + 0.00000204052596 * tr2 - 0.00000000232820948 * tr3) / (1.00130346 - 0.000134722124 * tc + 0.00000204052596 * tc2 - 0.00000000232820948 * tc3))
+
+    var f = celciusToFarenheight(temperatureCelcius);
+
+    //calibration temp (in f)
+    var cf = 68;
+
+    var cg = sg.sg *
+        ((1.00130346 -
+                0.000134722124 * f +
+                0.00000204052596 * pow(f, 2) -
+                0.00000000232820948 * pow(f, 3)) /
+            (1.00130346 -
+                0.000134722124 * cf +
+                0.00000204052596 * pow(cf, 2) -
+                0.00000000232820948 * pow(cf, 3)));
+
+    dev.log(
+        sprintf('sgTempAdjust:Converted %s at %s to %s',
+            [sg.sg, temperatureCelcius, cg]),
+        name: 'bigmojo.net.debug');
+
+    return SpecificGravity(cg);
   }
 }
