@@ -1,7 +1,7 @@
 import 'package:distillers_calculator/util/maths.dart';
 import 'package:sprintf/sprintf.dart';
 import 'dart:core';
-
+import 'dart:developer' as dev;
 import '../util/math_results.dart';
 
 class Table6 {
@@ -37,15 +37,71 @@ class Table6 {
   }
 
   static VolumeResult volume(int makeHowMuch, int startingABV, int desiredABV) {
-    var dillutionResult = dillution(1, startingABV, desiredABV);
+    /*
+SG is the density relative to water. So something with the same density than water has a SG of 1.
+Density is the absolute density in kg/lt. Water has a density of 0.9982 kg/lt at 20°C.
+So if something has SG of 0.9, it has a density of 0.9 x 0.9982 = 0.898 kg/lt
 
-    var dillutionRatio = dillutionResult.VolumeOfWaterToAdd + 1;
+---
+40%abv is SG 0.95. So the density is sg*waterDesnsity = 0.948kg/lt.
 
-    var addSource = ((makeHowMuch / dillutionRatio).round()).toDouble();
-    var addWater = (makeHowMuch - addSource).toDouble();
+The abw is 40 x densitypureethanol / 0.948 = 33.3
 
-    var answer = VolumeResult(addSource, addWater);
-    return answer;
+So you want 948g 33.3%abw.
+
+This is 948 x 33.3% = 316g ethanol, and 632g water.
+
+80%abv is SG 0.861. So the density is 0.859kg/lt.
+The abw is 80 x densitypureethanol / 0.859 = 73.5
+
+For 316g ethanol you need 316 / 73.5% = 430g 80%abv. 
+This includes 430 x 26.5% = 114g water.
+So for total 632g water you have to add 632 - 114 = 518g water, what is 519ml.
+And 430g 80%abv is 430 / 0.859 = 501ml.
+
+*/
+    var waterDensity = .9982;
+    var pureEthDensity = .789;
+
+    var endingSG = getVals(desiredABV * 2);
+
+    //40%abv is SG 0.95. So the density is sg*waterDesnsity = 0.948kg/lt.
+    var endingDensity = endingSG.AlcoholSG * waterDensity;
+
+    //The abw is 40 x densitypureethanol / 0.948 = 33.3
+    var endingABW = (desiredABV * pureEthDensity) / endingDensity;
+
+    //So you want 948g 33.3%abw.
+    //This is 948 x 33.3% = 316g ethanol, and 632g water.
+    var eth = endingDensity * (endingABW / 100);
+    var water = endingDensity - eth;
+
+    dev.log(
+        sprintf('Table.6VolumeResult:So you want %sg eth and %s water.',
+            [eth, water]),
+        name: 'bigmojo.net.debug');
+
+    //80%abv is SG 0.861. So the density is 0.859kg/lt.
+    var startingSG = getVals(startingABV * 2);
+    var startingDensity = startingSG.AlcoholSG * waterDensity;
+
+    //The abw is 80 x densitypureethanol / 0.859 = 73.5
+    var startingABW = (startingABV * pureEthDensity) / startingDensity;
+
+    //For 316g ethanol you need 316 / 73.5% = 430g 80%abv.
+    //This includes 430 x 26.5% = 114g water.
+    var howMuchSource = eth / (startingABW / 100);
+    var includesThisWater = howMuchSource * ((100 - startingABW) / 100);
+
+    //So for total 632g water you have to add 632 - 114 = 518g water, what is 519ml.
+    var thisMuchWater = water - includesThisWater;
+
+    //And 430g 80%abv is 430 / 0.859 = 501ml.
+    var thisMuchSource = howMuchSource / startingDensity;
+
+    //So 501ml 80%abv and 519ml water sum up to 1lt 40%abv.
+
+    return VolumeResult(thisMuchSource * 1000, thisMuchWater * 1000);
   }
 
   static Map<num, List<num>> data = {

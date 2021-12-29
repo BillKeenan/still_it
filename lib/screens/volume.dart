@@ -104,9 +104,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                         int.parse(toPercentController.text));
 
                     answerSourceController.text =
-                        vals.VolumeOfSourceToAdd.toString();
+                        Maths.roundToXDecimals(vals.VolumeOfSourceToAdd, 0)
+                            .toString();
                     answerWaterController.text =
-                        vals.VolumeOfWaterToAdd.toString();
+                        Maths.roundToXDecimals(vals.VolumeOfWaterToAdd, 0)
+                            .toString();
                     FocusScope.of(context).requestFocus(FocusNode());
                     setState(() {});
                   }
