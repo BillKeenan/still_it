@@ -1,19 +1,12 @@
+import 'package:distillers_calculator/util/maths.dart';
 import 'package:sprintf/sprintf.dart';
 import 'dart:core';
 
-import 'math_results.dart';
+import '../util/math_results.dart';
 
 class Table6 {
   ///Proof,Water,alcohol,SG in air
   // var data = HashMap<int, List>();
-
-  static num dropMoreThan2Decimals(input) {
-    return (input * 100).toInt() / 100;
-  }
-
-  static double roundTo2Decimals(num input) {
-    return double.parse(input.toStringAsFixed(2));
-  }
 
   ///implemented as per
   ///https://www.law.cornell.edu/cfr/text/27/30.66
@@ -30,14 +23,15 @@ class Table6 {
     var sourceData = Table6.getVals((startingABV * 2).toInt());
     var desiredData = Table6.getVals((desiredABV * 2).toInt());
 
-    var ratio = dropMoreThan2Decimals(sourceData.Alcohol / desiredData.Alcohol);
+    var ratio =
+        Maths.dropMoreThan2Decimals(sourceData.Alcohol / desiredData.Alcohol);
 
-    var desiredWater = dropMoreThan2Decimals(desiredData.Water * ratio);
+    var desiredWater = Maths.dropMoreThan2Decimals(desiredData.Water * ratio);
 
-    var waterDiff = roundTo2Decimals(desiredWater - sourceData.Water);
+    var waterDiff = Maths.roundTo2Decimals(desiredWater - sourceData.Water);
 
     //the forumla is per/100 units
-    double waterToAdd = roundTo2Decimals((waterDiff * volume) / 100);
+    double waterToAdd = Maths.roundTo2Decimals((waterDiff * volume) / 100);
 
     return DilutionResult(waterToAdd);
   }
@@ -261,8 +255,6 @@ class Table6 {
     if (data[proof] == null) {
       throw ArgumentError("invalid proof");
     }
-
-    print("getting val" + proof.toString());
 
     var dataList = data[proof];
     var returnResult =

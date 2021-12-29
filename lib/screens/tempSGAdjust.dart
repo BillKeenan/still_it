@@ -1,12 +1,14 @@
+import 'package:distillers_calculator/classes/specific_gravity.dart';
 import 'package:distillers_calculator/helpers/number_field.dart';
-import 'package:distillers_calculator/classes/table6.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
+import 'package:flutter/services.dart';
 
+import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
-class DillutionPage extends StatefulWidget {
-  DillutionPage({Key? key}) : super();
+class TempSGAdjust extends StatefulWidget {
+  TempSGAdjust({Key? key}) : super();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -17,13 +19,13 @@ class DillutionPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title = "Volume";
+  final String title = "Temperature Adjust";
 
   @override
-  _DillutionPageState createState() => _DillutionPageState();
+  _TempSGAdjust createState() => _TempSGAdjust();
 }
 
-class _DillutionPageState extends State<DillutionPage> {
+class _TempSGAdjust extends State<TempSGAdjust> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -36,7 +38,7 @@ class _DillutionPageState extends State<DillutionPage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
             appBar: AppBar(
-              title: const Text("Dillution Calculator",
+              title: const Text("Temperature Adjustment",
                   style: TextStyle(
                       color: LightColors.kDarkBlue,
                       fontSize: 20.0,
@@ -45,8 +47,7 @@ class _DillutionPageState extends State<DillutionPage> {
               backgroundColor: LightColors.kDarkYellow,
               foregroundColor: LightColors.kDarkBlue,
             ),
-            backgroundColor: LightColors.kLightYellow,
-            body: SingleChildScrollView(child: const MyCustomForm()),
+            body: const MyCustomForm(),
             resizeToAvoidBottomInset: false));
   }
 }
@@ -71,11 +72,13 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController volumeController = TextEditingController();
-  TextEditingController fromPercentController = TextEditingController();
-  TextEditingController toPercentController = TextEditingController();
-  TextEditingController answerSourceController = TextEditingController();
-  TextEditingController answerWaterController = TextEditingController();
+  TextEditingController sg1Controller = TextEditingController();
+  TextEditingController sg2Controller = TextEditingController();
+  TextEditingController answerController = TextEditingController();
+
+  SnackBar get snackBar => SnackBar(
+        content: Text('Specific Gravity copied to clipboard'),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -83,59 +86,55 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: EdgeInsets.all(25.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RichText(
               text: TextSpan(
-                text:
-                    'Have a jar of high % and want to adjust it down?\n This is the calculator for that',
+                text: 'Adjust your SG reading for your current temperature',
                 style: DefaultTextStyle.of(context)
                     .style
-                    .apply(fontSizeFactor: 1.5),
+                    .apply(fontSizeFactor: 2.0),
               ),
             ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            NumberField.getNumberField(volumeController, "Volume in Litres"),
             NumberField.getNumberField(
-                fromPercentController, "Source ABV", 0, 100),
-            NumberField.getNumberField(
-                toPercentController, "Desired ABV", 0, 100),
-            const SizedBox(
-              height: 20.0,
-            ),
+                sg1Controller, "Specific Gravity Reading"),
+            NumberField.getNumberField(sg2Controller, "Current Temp (c)"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var val = Table6.dillution(
-                        num.parse(volumeController.text),
-                        num.parse(fromPercentController.text),
-                        num.parse(toPercentController.text));
+                    var vals = Maths.sgTempAdjust(
+                        SpecificGravity(num.parse(sg1Controller.text)),
+                        num.parse(sg2Controller.text));
 
-                    answerWaterController.text =
-                        val.VolumeOfWaterToAdd.toString();
+                    answerController.text =
+                        Maths.roundToXDecimals(vals.sg, 4).toString();
                     setState(() {});
                   }
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: const Text('Calculate!'),
+                child: Text('Calculate!'),
               ),
             ]),
-            SizedBox(
-              height: 20.0,
-            ),
-            TextFormField(
-              controller: answerWaterController,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: "Add this much water",
-                border: InputBorder.none,
+            Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+              child: TextFormField(
+                controller: answerController,
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: answerController.text))
+                      .then((value) {
+                    //only if ->
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  });
+                },
+                readOnly: true,
+                decoration: InputDecoration(
+                    labelText: "Adjusted SG, click to copy",
+                    border: InputBorder.none),
               ),
             ),
           ],

@@ -5,8 +5,9 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:distillers_calculator/classes/specific_gravity.dart';
 import 'package:distillers_calculator/util/maths.dart';
-import 'package:distillers_calculator/util/table6.dart';
+import 'package:distillers_calculator/classes/table6.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -32,7 +33,8 @@ void main() {
   });
 
   test('abv from sg', () {
-    var answer = Maths.abvFromSg(1.050, 1.010);
+    var answer =
+        Maths.abvFromSg(SpecificGravity(1.050), SpecificGravity(1.010));
 
     expect(answer, 5.25);
   });
@@ -40,5 +42,10 @@ void main() {
   test('table 6 test', () {
     var answer = Table6.getVals(80);
     expect(answer.Alcohol, 40);
+  });
+
+  test('temp Adjust test', () {
+    var answer = Maths.sgTempAdjust(SpecificGravity(1.02), 10);
+    expect(Maths.roundToXDecimals(answer.sg, 4), 1.0185);
   });
 }
