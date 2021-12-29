@@ -19,3 +19,6 @@ samples, guidance on mobile development, and a full API reference.
 - update version in pubspec.yaml ( have to update the +x number , every time)
 run "flutter run" 
 run "flutter build appbundle"
+
+
+testing unit tests
