@@ -15,12 +15,12 @@ class Table6 {
 // 95.5 (the strength of 100 wine gallons of spirits at 191 proof) divided by 94.0 (the strength of 100 wine gallons of spirits at 188 proof) equals 1.01.
 // 7.36 (the water in 188 proof) multiplied by 1.01 equals 7.43.
 // 7.43 less 5.59 (the water in 191 proof spirits) equal 1.84 gallons of water to be added to each 100 wine gallons of 191 proof spirits to be reduced.
-  static DilutionResult dillution(num volume, num startingABV, num desiredABV) {
+  static DilutionResult dillution(num volume, num sourceABV, num desiredABV) {
     //v2 = (c1 * v1) / c2
 
     //get proof
 
-    var sourceData = Table6.getVals((startingABV * 2).toInt());
+    var sourceData = Table6.getVals((sourceABV * 2).toInt());
     var desiredData = Table6.getVals((desiredABV * 2).toInt());
 
     var ratio =
@@ -36,7 +36,7 @@ class Table6 {
     return DilutionResult(waterToAdd);
   }
 
-  static VolumeResult volume(int makeHowMuch, int startingABV, int desiredABV) {
+  static VolumeResult volume(int volumeML, int sourceABV, int desiredABV) {
     /*
 SG is the density relative to water. So something with the same density than water has a SG of 1.
 Density is the absolute density in kg/lt. Water has a density of 0.9982 kg/lt at 20°C.
@@ -82,22 +82,22 @@ And 430g 80%abv is 430 / 0.859 = 501ml.
         name: 'bigmojo.net.debug');
 
     //80%abv is SG 0.861. So the density is 0.859kg/lt.
-    var startingSG = getVals(startingABV * 2);
-    var startingDensity = startingSG.AlcoholSG * waterDensity;
+    var sourceSG = getVals(sourceABV * 2);
+    var sourceDensity = sourceSG.AlcoholSG * waterDensity;
 
     //The abw is 80 x densitypureethanol / 0.859 = 73.5
-    var startingABW = (startingABV * pureEthDensity) / startingDensity;
+    var sourceABW = (sourceABV * pureEthDensity) / sourceDensity;
 
     //For 316g ethanol you need 316 / 73.5% = 430g 80%abv.
     //This includes 430 x 26.5% = 114g water.
-    var howMuchSource = eth / (startingABW / 100);
-    var includesThisWater = howMuchSource * ((100 - startingABW) / 100);
+    var howMuchSource = eth / (sourceABW / 100);
+    var includesThisWater = howMuchSource * ((100 - sourceABW) / 100);
 
     //So for total 632g water you have to add 632 - 114 = 518g water, what is 519ml.
     var thisMuchWater = water - includesThisWater;
 
     //And 430g 80%abv is 430 / 0.859 = 501ml.
-    var thisMuchSource = howMuchSource / startingDensity;
+    var thisMuchSource = howMuchSource / sourceDensity;
 
     //So 501ml 80%abv and 519ml water sum up to 1lt 40%abv.
 
