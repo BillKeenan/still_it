@@ -2,12 +2,13 @@ import 'package:distillers_calculator/classes/specific_gravity.dart';
 import 'package:distillers_calculator/helpers/number_field.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
+import 'package:flutter/services.dart';
 
 import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
-class SGPage extends StatefulWidget {
-  SGPage({Key? key}) : super();
+class TempSGAdjust extends StatefulWidget {
+  TempSGAdjust({Key? key}) : super();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,13 +19,13 @@ class SGPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title = "Volume";
+  final String title = "Temperature Adjust";
 
   @override
-  _SGPageState createState() => _SGPageState();
+  _TempSGAdjust createState() => _TempSGAdjust();
 }
 
-class _SGPageState extends State<SGPage> {
+class _TempSGAdjust extends State<TempSGAdjust> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -37,7 +38,7 @@ class _SGPageState extends State<SGPage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
             appBar: AppBar(
-              title: const Text("ABV From Specific Gravity",
+              title: const Text("Temperature Adjustment",
                   style: TextStyle(
                       color: LightColors.kDarkBlue,
                       fontSize: 20.0,
@@ -75,6 +76,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController sg2Controller = TextEditingController();
   TextEditingController answerController = TextEditingController();
 
+  SnackBar get snackBar => SnackBar(
+        content: Text('Specific Gravity copied to clipboard'),
+      );
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -87,26 +92,27 @@ class MyCustomFormState extends State<MyCustomForm> {
           children: [
             RichText(
               text: TextSpan(
-                text:
-                    'Simple ABV calculator based on your Start and end Specific Gravity',
+                text: 'Adjust your SG reading for your current temperature',
                 style: DefaultTextStyle.of(context)
                     .style
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(sg1Controller, "Starting SG"),
-            NumberField.getNumberField(sg2Controller, "Ending SG"),
+            NumberField.getNumberField(
+                sg1Controller, "Specific Gravity Reading"),
+            NumberField.getNumberField(sg2Controller, "Current Temp (c)"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var vals = Maths.abvFromSg(
+                    var vals = Maths.sgTempAdjust(
                         SpecificGravity(num.parse(sg1Controller.text)),
-                        SpecificGravity(num.parse(sg2Controller.text)));
+                        num.parse(sg2Controller.text));
 
-                    answerController.text = vals.toString();
+                    answerController.text =
+                        Maths.roundToXDecimals(vals.sg, 4).toString();
                     setState(() {});
                   }
                   FocusScope.of(context).requestFocus(FocusNode());
@@ -118,9 +124,17 @@ class MyCustomFormState extends State<MyCustomForm> {
               margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
               child: TextFormField(
                 controller: answerController,
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: answerController.text))
+                      .then((value) {
+                    //only if ->
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  });
+                },
                 readOnly: true,
                 decoration: InputDecoration(
-                    labelText: "Final ABV %", border: InputBorder.none),
+                    labelText: "Adjusted SG, click to copy",
+                    border: InputBorder.none),
               ),
             ),
           ],

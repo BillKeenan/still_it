@@ -78,6 +78,20 @@ class Maths {
     return f;
   }
 
+  static FtoC(num f) {
+    //°F =°C * 1.8000 + 32.00
+    //°C =(°F - 32) / 1.8000
+    var c = (f - 32) / 1.8;
+    return c;
+  }
+
+  static CtoF(num c) {
+    //°F =°C * 1.8000 + 32.00
+    //°C =(°F - 32) / 1.8000
+    var f = c * 1.8 + 32;
+    return f;
+  }
+
   static SpecificGravity sgTempAdjust(
       SpecificGravity sg, num temperatureCelcius) {
     //cg = mg * ((1.00130346 - 0.000134722124 * tr + 0.00000204052596 * tr2 - 0.00000000232820948 * tr3) / (1.00130346 - 0.000134722124 * tc + 0.00000204052596 * tc2 - 0.00000000232820948 * tc3))

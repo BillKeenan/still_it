@@ -1,4 +1,6 @@
 import 'package:distillers_calculator/screens/sugar.dart';
+import 'package:distillers_calculator/screens/tempConverter.dart';
+import 'package:distillers_calculator/screens/tempSGAdjust.dart';
 import 'package:flutter/widgets.dart';
 import 'package:distillers_calculator/screens/dillution.dart';
 import 'package:distillers_calculator/screens/sgABV.dart';
@@ -9,4 +11,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/Dillution": (BuildContext context) => DillutionPage(),
   "/Sugar": (BuildContext context) => SugarPage(),
   "/SpecificGravity": (BuildContext context) => SGPage(),
+  "/TempAdjust": (BuildContext context) => TempSGAdjust(),
+  "/TempConvert": (BuildContext context) => TempConvert(),
 };
