@@ -74,10 +74,11 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   TextEditingController sg1Controller = TextEditingController();
   TextEditingController sg2Controller = TextEditingController();
+  TextEditingController calibrationController = TextEditingController();
   TextEditingController answerController = TextEditingController();
 
   SnackBar get snackBar => SnackBar(
-        content: Text('Specific Gravity copied to clipboard'),
+        content: const Text("Specific Gravity copied to clipboard"),
       );
 
   @override
@@ -86,7 +87,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -98,6 +99,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
+            NumberField.getNumberField(calibrationController,
+                "Hydromter Calibration Temp (c)", 10, 20, 20),
             NumberField.getNumberField(
                 sg1Controller, "Specific Gravity Reading"),
             NumberField.getNumberField(sg2Controller, "Current Temp (c)"),
@@ -109,7 +112,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   if (_formKey.currentState!.validate()) {
                     var vals = Maths.sgTempAdjust(
                         SpecificGravity(num.parse(sg1Controller.text)),
-                        num.parse(sg2Controller.text));
+                        num.parse(sg2Controller.text),
+                        num.parse(calibrationController.text));
 
                     answerController.text =
                         Maths.roundToXDecimals(vals.sg, 4).toString();

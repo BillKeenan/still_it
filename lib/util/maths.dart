@@ -93,13 +93,13 @@ class Maths {
   }
 
   static SpecificGravity sgTempAdjust(
-      SpecificGravity sg, num temperatureCelcius) {
+      SpecificGravity sg, num temperatureCelcius, num calibrationTempC) {
     //cg = mg * ((1.00130346 - 0.000134722124 * tr + 0.00000204052596 * tr2 - 0.00000000232820948 * tr3) / (1.00130346 - 0.000134722124 * tc + 0.00000204052596 * tc2 - 0.00000000232820948 * tc3))
 
     var f = celciusToFarenheight(temperatureCelcius);
+    var calib = celciusToFarenheight(calibrationTempC);
 
     //calibration temp (in f)
-    var cf = 68;
 
     var cg = sg.sg *
         ((1.00130346 -
@@ -107,9 +107,9 @@ class Maths {
                 0.00000204052596 * pow(f, 2) -
                 0.00000000232820948 * pow(f, 3)) /
             (1.00130346 -
-                0.000134722124 * cf +
-                0.00000204052596 * pow(cf, 2) -
-                0.00000000232820948 * pow(cf, 3)));
+                0.000134722124 * calib +
+                0.00000204052596 * pow(calib, 2) -
+                0.00000000232820948 * pow(calib, 3)));
 
     dev.log(
         sprintf('sgTempAdjust:Converted %s at %s to %s',

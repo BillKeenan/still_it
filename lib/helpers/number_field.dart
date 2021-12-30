@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class NumberField {
   static getNumberField(TextEditingController controller, String labelText,
       [int? min, int? max, num? initialVal]) {
+    var hintText = "";
+    if (initialVal != null && controller.text == "") {
+      controller.text = initialVal.toString();
+    }
     var containerVal = Container(
       margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
       child: TextFormField(
