@@ -100,7 +100,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
             ),
             NumberField.getNumberField(calibrationController,
-                "Hydromter Calibration Temp (c)", 10, 20, 20),
+                "Hydromter Calibration Temp (c)", 10, 20, 15),
             NumberField.getNumberField(
                 sg1Controller, "Specific Gravity Reading"),
             NumberField.getNumberField(sg2Controller, "Current Temp (c)"),
