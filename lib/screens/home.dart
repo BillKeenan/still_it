@@ -132,7 +132,7 @@ HomeScreen() {
                           iconSize: 30,
                           icon: Icons.liquor_outlined,
                           iconBackgroundColor: LightColors.kRed,
-                          title: 'Bottle Dillution',
+                          title: 'Bottle Dilution',
                           subtitle: 'Make a bottle at a desired %',
                           onTapNav: '/Volume'),
                       SizedBox(
@@ -142,9 +142,9 @@ HomeScreen() {
                           iconSize: 30,
                           icon: Icons.sanitizer_outlined,
                           iconBackgroundColor: LightColors.kRed,
-                          title: 'Dillution Calculator',
+                          title: 'Dilution Calculator',
                           subtitle: 'Dillute a volume down to a %',
-                          onTapNav: '/Dillution'),
+                          onTapNav: '/Dilution'),
                       SizedBox(height: 15.0),
                       TaskColumn(
                           iconSize: 30,

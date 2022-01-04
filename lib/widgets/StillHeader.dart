@@ -27,7 +27,7 @@ class StillHeader extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Distillers Calculators',
+                          'Distilers Calculators',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 22.0,

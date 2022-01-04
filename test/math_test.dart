@@ -17,13 +17,13 @@ void main() {
     expect(answer.VolumeOfWaterToAdd, 518.9641799999999);
   });
 
-  test('Dillution Test', () {
-    var answer = Table6.dillution(1, 80, 40);
+  test('Dilution Test', () {
+    var answer = Table6.dilution(1, 80, 40);
     expect(answer.VolumeOfWaterToAdd, 1.04);
   });
 
-  test('Dillution Test2', () {
-    var answer = Table6.dillution(100, 95.5, 94);
+  test('Dilution Test2', () {
+    var answer = Table6.dilution(100, 95.5, 94);
     expect(answer.VolumeOfWaterToAdd, 1.84);
   });
 
@@ -45,7 +45,7 @@ void main() {
   });
 
   test('temp Adjust test', () {
-    var answer = Maths.sgTempAdjust(SpecificGravity(1.02), 10);
+    var answer = Maths.sgTempAdjust(SpecificGravity(1.02), 10, 20);
     expect(Maths.roundToXDecimals(answer.sg, 4), 1.0185);
   });
 }

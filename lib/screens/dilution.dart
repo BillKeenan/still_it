@@ -5,8 +5,8 @@ import 'package:distillers_calculator/theme/colors/light_colors.dart';
 
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
-class DillutionPage extends StatefulWidget {
-  DillutionPage({Key? key}) : super();
+class DilutionPage extends StatefulWidget {
+  DilutionPage({Key? key}) : super();
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -20,10 +20,10 @@ class DillutionPage extends StatefulWidget {
   final String title = "Volume";
 
   @override
-  _DillutionPageState createState() => _DillutionPageState();
+  _DiluttionPageState createState() => _DiluttionPageState();
 }
 
-class _DillutionPageState extends State<DillutionPage> {
+class _DiluttionPageState extends State<DilutionPage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -36,7 +36,7 @@ class _DillutionPageState extends State<DillutionPage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
             appBar: AppBar(
-              title: const Text("Dillution Calculator",
+              title: const Text("Dilution Calculator",
                   style: TextStyle(
                       color: LightColors.kDarkBlue,
                       fontSize: 20.0,
@@ -113,7 +113,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var val = Table6.dillution(
+                    var val = Table6.dilution(
                         num.parse(volumeController.text),
                         num.parse(fromPercentController.text),
                         num.parse(toPercentController.text));

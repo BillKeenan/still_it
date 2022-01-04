@@ -27,7 +27,7 @@ class Maths {
     return [sourceSpirit.round(), (makeHowMuch - sourceSpirit).round()];
   }
 
-  static DilutionResult dillution(int volume, int startingABV, int desiredABV) {
+  static DilutionResult dilution(int volume, int startingABV, int desiredABV) {
     //v2 = (c1 * v1) / c2
 
     var v2 = (volume * startingABV) / desiredABV;

@@ -15,7 +15,7 @@ class Table6 {
 // 95.5 (the strength of 100 wine gallons of spirits at 191 proof) divided by 94.0 (the strength of 100 wine gallons of spirits at 188 proof) equals 1.01.
 // 7.36 (the water in 188 proof) multiplied by 1.01 equals 7.43.
 // 7.43 less 5.59 (the water in 191 proof spirits) equal 1.84 gallons of water to be added to each 100 wine gallons of 191 proof spirits to be reduced.
-  static DilutionResult dillution(num volume, num sourceABV, num desiredABV) {
+  static DilutionResult dilution(num volume, num sourceABV, num desiredABV) {
     //v2 = (c1 * v1) / c2
 
     //get proof
