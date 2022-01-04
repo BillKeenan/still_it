@@ -143,7 +143,7 @@ HomeScreen() {
                           icon: Icons.sanitizer_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Dilution Calculator',
-                          subtitle: 'Dillute a volume down to a %',
+                          subtitle: 'Dilute a volume down to a %',
                           onTapNav: '/Dilution'),
                       SizedBox(height: 15.0),
                       TaskColumn(
@@ -153,6 +153,13 @@ HomeScreen() {
                           title: 'Sugar Wash Calculator',
                           subtitle: 'How much sugar? How much water?',
                           onTapNav: '/Sugar'),
+                      TaskColumn(
+                          iconSize: 30,
+                          icon: Icons.local_drink_outlined,
+                          iconBackgroundColor: LightColors.kRed,
+                          title: 'BVatch',
+                          subtitle: 'How much sugar? How much water?',
+                          onTapNav: '/Batch'),
                     ],
                   ),
                 ),
