@@ -87,8 +87,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(sugarController, "KG of Sugar"),
-            NumberField.getNumberField(waterController, "Volume of Water (L)"),
+            NumberFieldHelper.getNumberField(sugarController, "KG of Sugar"),
+            NumberFieldHelper.getNumberField(
+                waterController, "Volume of Water (L)"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {

@@ -99,11 +99,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(calibrationController,
+            NumberFieldHelper.getNumberField(calibrationController,
                 "Hydromter Calibration Temp (c)", 10, 20, 15),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sg1Controller, "Specific Gravity Reading"),
-            NumberField.getNumberField(sg2Controller, "Current Temp (c)"),
+            NumberFieldHelper.getNumberField(sg2Controller, "Current Temp (c)"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {

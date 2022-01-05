@@ -92,8 +92,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(sg1Controller, "Starting SG"),
-            NumberField.getNumberField(sg2Controller, "Ending SG"),
+            NumberFieldHelper.getNumberField(sg1Controller, "Starting SG"),
+            NumberFieldHelper.getNumberField(sg2Controller, "Ending SG"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {

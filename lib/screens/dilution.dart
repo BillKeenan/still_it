@@ -99,10 +99,11 @@ class MyCustomFormState extends State<MyCustomForm> {
             const SizedBox(
               height: 30.0,
             ),
-            NumberField.getNumberField(volumeController, "Volume in Litres"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
+                volumeController, "Volume in Litres"),
+            NumberFieldHelper.getNumberField(
                 fromPercentController, "Source ABV", 0, 100),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 toPercentController, "Desired ABV", 0, 100),
             const SizedBox(
               height: 20.0,

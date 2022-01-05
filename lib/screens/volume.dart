@@ -86,12 +86,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 volumeController, "Desired Volume in ml"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 fromPercentController, "ABV of source", 0, 100),
-            NumberField.getNumberField(toPercentController, "Desired final ABV",
-                0, int.tryParse(fromPercentController.text) ?? 100),
+            NumberFieldHelper.getNumberField(
+                toPercentController,
+                "Desired final ABV",
+                0,
+                int.tryParse(fromPercentController.text) ?? 100),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
