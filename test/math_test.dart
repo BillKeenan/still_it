@@ -12,9 +12,15 @@ import 'package:test/test.dart';
 
 void main() {
   test('Volume (bottle) Test', () {
-    var answer = Table6.volume(500, 80, 40);
+    var answer = Table6.volume(1000, 80, 40);
     expect(answer.VolumeOfSourceToAdd, 500.0000000000001);
     expect(answer.VolumeOfWaterToAdd, 518.9641799999999);
+  });
+
+  test('Volume (bottle) Test2', () {
+    var answer = Table6.volume(500, 80, 40);
+    expect(answer.VolumeOfSourceToAdd, 250.00000000000006);
+    expect(answer.VolumeOfWaterToAdd, 259.48208999999997);
   });
 
   test('Dilution Test', () {
