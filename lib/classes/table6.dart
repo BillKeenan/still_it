@@ -101,7 +101,10 @@ And 430g 80%abv is 430 / 0.859 = 501ml.
 
     //So 501ml 80%abv and 519ml water sum up to 1lt 40%abv.
 
-    return VolumeResult(thisMuchSource * 1000, thisMuchWater * 1000);
+    var finalSource = (thisMuchSource * 1000) * (volumeML / 1000);
+    var finalWater = (thisMuchWater * 1000) * (volumeML / 1000);
+
+    return VolumeResult(finalSource, finalWater);
   }
 
   static Map<num, List<num>> data = {
