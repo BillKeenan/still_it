@@ -26,4 +26,4 @@ git ls-remote --tags origin
 run "flutter pub get" 
 run "flutter build appbundle"
 
-upload at https://play.google.com/console
+upload at https://play.google.com/console/u/2/developers/6741489482229582596/app-list?pli=1
