@@ -39,7 +39,7 @@ class _BatchDetailState extends State<BatchDetail> {
           color: Colors.white,
           child: Scaffold(
               appBar: AppBar(
-                title: const Text("Dilution Calculator",
+                title: const Text("Batch Diary",
                     style: TextStyle(
                         color: LightColors.kDarkBlue,
                         fontSize: 20.0,
@@ -78,50 +78,58 @@ class _BatchDetailState extends State<BatchDetail> {
         elevation: 5,
         isScrollControlled: true,
         builder: (_) => Container(
-              padding: EdgeInsets.only(
-                top: 15,
-                left: 15,
-                right: 15,
-                // this will prevent the soft keyboard from covering the text fields
-                bottom: MediaQuery.of(context).viewInsets.bottom + 120,
-              ),
-              child: Column(
+            padding: EdgeInsets.only(
+              top: 15,
+              left: 15,
+              right: 15,
+              // this will prevent the soft keyboard from covering the text fields
+              bottom: MediaQuery.of(context).viewInsets.bottom + 120,
+            ),
+            child: Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  TextField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(hintText: 'Title'),
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                    CircleAvatar(
+                      radius: 20.0,
+                      backgroundColor: LightColors.kRed,
+                      child: Icon(
+                        Icons.note_add,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "Add Note",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ]),
+                  SizedBox(
+                    width: 30.0,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    controller: _descriptionController,
-                    decoration: const InputDecoration(hintText: 'Description'),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // Save new journal
-                      if (id == null) {}
-
-                      if (id != null) {}
-
-                      // Clear the text fields
-                      _titleController.text = '';
-                      _descriptionController.text = '';
-
-                      // Close the bottom sheet
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(id == null ? 'Create New' : 'Update'),
-                  )
-                ],
-              ),
-            ));
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                    CircleAvatar(
+                      radius: 20.0,
+                      backgroundColor: LightColors.kRed,
+                      child: Icon(
+                        Icons.photo_album,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "Add Photo",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ])
+                ])));
   }
 }
 
@@ -167,8 +175,7 @@ class BatchDetailFormState extends State<BatchDetailForm> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               RichText(
                 text: TextSpan(
-                  text:
-                      'Have a jar of high % and want to adjust it down?\n This is the calculator for that',
+                  text: 'A journal for your brewing',
                   style: DefaultTextStyle.of(context)
                       .style
                       .apply(fontSizeFactor: 1.5),
