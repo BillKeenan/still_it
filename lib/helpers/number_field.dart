@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class NumberFieldHelper {
   static getNumberField(TextEditingController controller, String labelText,
       [int? min, int? max, num? initialVal]) {
-    var hintText = "";
     if (initialVal != null && controller.text == "") {
       controller.text = initialVal.toString();
     }

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:developer' as dev;
 import 'package:distillers_calculator/classes/batch.dart';
-import 'package:distillers_calculator/classes/sqlHelper.dart';
+import 'package:distillers_calculator/classes/sql_helper.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'package:distillers_calculator/widgets/batch_detail_form.dart';
 import 'package:flutter/material.dart';

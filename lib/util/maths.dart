@@ -78,14 +78,14 @@ class Maths {
     return f;
   }
 
-  static FtoC(num f) {
+  static fToC(num f) {
     //°F =°C * 1.8000 + 32.00
     //°C =(°F - 32) / 1.8000
     var c = (f - 32) / 1.8;
     return c;
   }
 
-  static CtoF(num c) {
+  static cToF(num c) {
     //°F =°C * 1.8000 + 32.00
     //°C =(°F - 32) / 1.8000
     var f = c * 1.8 + 32;

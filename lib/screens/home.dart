@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
-import 'package:distillers_calculator/widgets/StillHeader.dart';
-import 'package:distillers_calculator/widgets/TaskColumn.dart';
+import 'package:distillers_calculator/widgets/still_header.dart';
+import 'package:distillers_calculator/widgets/task_column.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePage createState() => _HomePage();
 
@@ -20,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  final _pageOptions = [HomeScreen(), CalculatorScreen()];
+  final _pageOptions = [homeScreen(), calculatorScreen()];
   var selectedPage = 0;
 
   @override
@@ -51,17 +53,18 @@ class _HomePage extends State<HomePage> {
   }
 }
 
-CalculatorScreen() {
+calculatorScreen() {
   return SafeArea(
       top: false,
       child: Column(children: <Widget>[
-        StillHeader(),
+        const StillHeader(),
         Expanded(
             child: SingleChildScrollView(
                 child: Column(children: <Widget>[
           Container(
               color: Colors.transparent,
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
               child: Column(children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,44 +73,44 @@ CalculatorScreen() {
                     HomePage.subheading('Conversions'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
-                TaskColumn(
+                const TaskColumn(
                     iconSize: 30,
                     icon: Icons.query_stats_rounded,
                     iconBackgroundColor: LightColors.kRed,
                     title: 'Specific Gravity adjustment',
                     subtitle: 'Adjust SG for temperature',
                     onTapNav: '/TempAdjust'),
-                SizedBox(height: 15.0),
-                TaskColumn(
+                const SizedBox(height: 15.0),
+                const TaskColumn(
                     iconSize: 30,
                     icon: Icons.thermostat,
                     iconBackgroundColor: LightColors.kRed,
                     title: 'Celcius to Farenheight',
                     subtitle: 'Basic Temperature Conversions',
                     onTapNav: '/TempConvert'),
-                SizedBox(height: 15.0)
+                const SizedBox(height: 15.0)
               ]))
         ])))
       ]));
 }
 
-HomeScreen() {
+homeScreen() {
   return SafeArea(
     top: false,
     child: Column(
       children: <Widget>[
-        StillHeader(),
+        const StillHeader(),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 Container(
                   color: Colors.transparent,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 40.0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -117,43 +120,43 @@ HomeScreen() {
                           HomePage.subheading('Calculators'),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30.0,
                       ),
-                      TaskColumn(
+                      const TaskColumn(
                           iconSize: 30,
                           icon: Icons.query_stats_rounded,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'ABV from Specific Gravity',
                           subtitle: 'What % did your wash end at',
                           onTapNav: '/SpecificGravity'),
-                      SizedBox(height: 15.0),
-                      TaskColumn(
+                      const SizedBox(height: 15.0),
+                      const TaskColumn(
                           iconSize: 30,
                           icon: Icons.liquor_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Bottle Dilution',
                           subtitle: 'Make a bottle at a desired %',
                           onTapNav: '/Volume'),
-                      SizedBox(
+                      const SizedBox(
                         height: 15.0,
                       ),
-                      TaskColumn(
+                      const TaskColumn(
                           iconSize: 30,
                           icon: Icons.sanitizer_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Dilution Calculator',
                           subtitle: 'Dilute a volume down to a %',
                           onTapNav: '/Dilution'),
-                      SizedBox(height: 15.0),
-                      TaskColumn(
+                      const SizedBox(height: 15.0),
+                      const TaskColumn(
                           iconSize: 30,
                           icon: Icons.local_drink_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Sugar Wash Calculator',
                           subtitle: 'How much sugar? How much water?',
                           onTapNav: '/Sugar'),
-                      TaskColumn(
+                      const TaskColumn(
                           iconSize: 30,
                           icon: Icons.local_drink_outlined,
                           iconBackgroundColor: LightColors.kRed,

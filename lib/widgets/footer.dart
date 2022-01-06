@@ -28,16 +28,16 @@ class FooterMenu extends StatefulWidget {
   List<BottomNavigationBarItem> navItems = [];
 
   FooterMenu({required Key key, required this.menuItemsMap}) : super(key: key) {
-    this.buildNavItems();
+    buildNavItems();
   }
 
   void buildNavItems() {
-    menuItemsMap.forEach((element) {
+    for (var element in menuItemsMap) {
       navItems.add(BottomNavigationBarItem(
         icon: element['icon'],
         label: element['text'],
       ));
-    });
+    }
   }
 
   @override

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class TextFieldHelper {
   static getTextField(
       TextEditingController controller, String labelText, String initialVal) {
-    var hintText = "";
-    if (initialVal != null && controller.text == "") {
+    if (controller.text == "") {
       controller.text = initialVal.toString();
     }
     var containerVal = Container(

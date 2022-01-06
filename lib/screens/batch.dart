@@ -1,5 +1,5 @@
-import 'package:distillers_calculator/classes/sqlHelper.dart';
-import 'package:distillers_calculator/screens/batchDetail.dart';
+import 'package:distillers_calculator/classes/sql_helper.dart';
+import 'package:distillers_calculator/screens/batch_detail.dart';
 import 'package:flutter/material.dart';
 
 class Batch extends StatefulWidget {

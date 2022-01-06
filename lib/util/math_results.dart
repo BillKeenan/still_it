@@ -1,16 +1,16 @@
 class VolumeResult extends BaseResult {
-  num VolumeOfWaterToAdd;
-  num VolumeOfSourceToAdd;
+  num volumeOfWaterToAdd;
+  num volumeOfSourceToAdd;
 
-  VolumeResult(this.VolumeOfSourceToAdd, this.VolumeOfWaterToAdd);
+  VolumeResult(this.volumeOfSourceToAdd, this.volumeOfWaterToAdd);
 }
 
 class DilutionResult extends BaseResult {
-  double VolumeOfWaterToAdd;
-  DilutionResult(this.VolumeOfWaterToAdd);
+  double volumeOfWaterToAdd;
+  DilutionResult(this.volumeOfWaterToAdd);
 }
 
 class BaseResult {
-  String ErrorResult = "";
-  int ResultCode = 200;
+  String errorResult = "";
+  int resultCode = 200;
 }

@@ -8,15 +8,16 @@ class TaskColumn extends StatelessWidget {
 
   final double iconSize;
 
-  var onTapNav;
-  TaskColumn({
+  final String onTapNav;
+  const TaskColumn({
+    Key? key,
     required this.icon,
     required this.iconBackgroundColor,
     required this.iconSize,
     required this.title,
     required this.subtitle,
     required this.onTapNav,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +37,20 @@ class TaskColumn extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.black45),

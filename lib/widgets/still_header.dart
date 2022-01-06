@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 
-import 'TopContainer.dart';
+import 'top_container.dart';
 
 class StillHeader extends StatelessWidget {
-  StillHeader();
+  const StillHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class StillHeader extends StatelessWidget {
     return TopContainer(
       height: 200,
       width: width,
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -24,16 +24,14 @@ class StillHeader extends StatelessWidget {
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          'Distilers Calculators',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            color: LightColors.kDarkBlue,
-                            fontWeight: FontWeight.w800,
-                          ),
+                    children: const <Widget>[
+                      Text(
+                        'Distilers Calculators',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          color: LightColors.kDarkBlue,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ],
