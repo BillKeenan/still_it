@@ -41,3 +41,6 @@ jobs:
       # want to change this to 'flutter test'.
       - name: Run tests
         run: flutter test
+
+      - name: build android
+        run: flutter build apk
