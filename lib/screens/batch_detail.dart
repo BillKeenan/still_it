@@ -77,7 +77,15 @@ class _BatchDetailState extends State<BatchDetail> {
               foregroundColor: LightColors.kDarkBlue,
             ),
             backgroundColor: LightColors.kLightYellow,
-            body: getNotesList(),
+            body: Column(children: [
+              Text(batch.name!,
+                  style: TextStyle(
+                      color: LightColors.kDarkBlue,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2)),
+              Expanded(child: getNotesList())
+            ]),
             resizeToAvoidBottomInset: false,
             floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add),
@@ -93,7 +101,10 @@ class _BatchDetailState extends State<BatchDetail> {
       throw ArgumentError("invalid batch id");
     }
     SQLHelper.saveNote(batch.id!, note);
-    setState(() {});
+
+    setState(() {
+      getNotes();
+    });
   }
 
   _showChoiceForm(int? id) async {
@@ -225,17 +236,17 @@ class _BatchDetailState extends State<BatchDetail> {
             color: Colors.white,
             elevation: 2.0,
             child: ListTile(
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 backgroundColor: Colors.amber,
                 child: Text("a"),
               ),
               title: Text(notes[position].note!,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   GestureDetector(
-                    child: Icon(
+                    child: const Icon(
                       Icons.delete,
                       color: Colors.red,
                     ),

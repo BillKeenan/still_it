@@ -104,7 +104,10 @@ class SQLHelper {
     final db = await SQLHelper.db();
 
     List<Map> maps = await db.query('notes',
-        columns: ['id', 'note', 'batch'], where: 'batch = ?', whereArgs: [id]);
+        columns: ['id', 'note', 'batch'],
+        where: 'batch = ?',
+        whereArgs: [id],
+        orderBy: "createdAt desc");
 
     List<Note> notes = [];
     for (var element in maps) {
