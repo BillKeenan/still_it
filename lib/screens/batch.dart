@@ -153,7 +153,7 @@ class _BatchState extends State<Batch> {
                               onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) => BatchDetail(
-                                          id: _journals[index]['id'])))),
+                                          batchID: _journals[index]['id'])))),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () =>

@@ -2,12 +2,22 @@ import 'package:distillers_calculator/classes/batch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
+import 'note.dart';
+
 class SQLHelper {
   static Future<void> createTables(sql.Database database) async {
     await database.execute("""CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         title TEXT,
         description TEXT,
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+      """);
+
+    await database.execute("""CREATE TABLE notes(
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        note TEXT,
+        batch INTEGER,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
       """);
@@ -48,7 +58,9 @@ class SQLHelper {
     final db = await SQLHelper.db();
 
     List<Map> maps = await db.query('items',
-        columns: ['title', 'description'], where: 'id = ?', whereArgs: [id]);
+        columns: ['id', 'title', 'description'],
+        where: 'id = ?',
+        whereArgs: [id]);
 
     return Batch.fromMap(maps.first);
   }
@@ -77,5 +89,28 @@ class SQLHelper {
     } catch (err) {
       debugPrint("Something went wrong when deleting an item: $err");
     }
+  }
+
+  static Future<int> saveNote(int batchId, String note) async {
+    final db = await SQLHelper.db();
+
+    final data = {'note': note, 'batch': batchId};
+    final id = await db.insert('notes', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    return id;
+  }
+
+  static Future<List<Note>> getNotes(int id) async {
+    final db = await SQLHelper.db();
+
+    List<Map> maps = await db.query('notes',
+        columns: ['id', 'note', 'batch'], where: 'batch = ?', whereArgs: [id]);
+
+    List<Note> notes = [];
+    for (var element in maps) {
+      notes.add(Note.fromMap(element));
+    }
+
+    return notes;
   }
 }

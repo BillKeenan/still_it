@@ -2,31 +2,28 @@
 import 'package:distillers_calculator/classes/batch.dart';
 import 'package:distillers_calculator/classes/note.dart';
 import 'package:distillers_calculator/helpers/text_field.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-class BatchDetailForm extends StatefulWidget {
+class NotesForm extends StatefulWidget {
   final Batch batch;
-
-  final List image;
 
   final List<Note> notes = [];
 
-  BatchDetailForm({
+  NotesForm({
     Key? key,
     required this.batch,
-    required this.image,
     required List<Note> notes,
   }) : super(key: key);
 
   @override
-  BatchDetailFormState createState() {
-    return BatchDetailFormState();
+  NotesFormState createState() {
+    return NotesFormState();
   }
 }
 
 // Create a corresponding State class.
 // This class holds data related to the form.
-class BatchDetailFormState extends State<BatchDetailForm> {
+class NotesFormState extends State<NotesForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -36,17 +33,8 @@ class BatchDetailFormState extends State<BatchDetailForm> {
 
   @override
   Widget build(BuildContext context) {
-    List photoWidgets = [];
     List notesWidgets = [];
     double height = MediaQuery.of(context).size.height / 5;
-
-    for (var i = 0; i < widget.image.length; i++) {
-      photoWidgets.add(
-          Image.file(widget.image[i], fit: BoxFit.fitWidth, height: height));
-      photoWidgets.add(const SizedBox(
-        height: 30.0,
-      ));
-    }
 
     for (var i = 0; i < widget.notes.length; i++) {
       notesWidgets.add(Text(widget.notes[i].note!));
@@ -59,14 +47,14 @@ class BatchDetailFormState extends State<BatchDetailForm> {
         alignment: Alignment.center,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [...photoWidgets]));
+            children: [...notesWidgets]));
 
     // Build a Form widget using the _formKey created above.
     TextEditingController batchNameController = TextEditingController();
 
-    return Form(
+    return Scaffold(
         key: _formKey,
-        child: Padding(
+        body: Padding(
           padding: const EdgeInsets.all(25.0),
           child: SingleChildScrollView(
               child: Column(
