@@ -1,18 +1,18 @@
 // Create a Form widget.
-import 'package:distillers_calculator/classes/batch.dart';
-import 'package:distillers_calculator/classes/note.dart';
 import 'package:distillers_calculator/helpers/text_field.dart';
+import 'package:distillers_calculator/model/batch.dart';
+import 'package:distillers_calculator/model/note.dart';
 import 'package:flutter/material.dart';
 
 class NotesForm extends StatefulWidget {
   final Batch batch;
 
-  final List<Note> notes = [];
+  final List<TextNote> notes = [];
 
   NotesForm({
     Key? key,
     required this.batch,
-    required List<Note> notes,
+    required List<TextNote> notes,
   }) : super(key: key);
 
   @override
@@ -34,10 +34,9 @@ class NotesFormState extends State<NotesForm> {
   @override
   Widget build(BuildContext context) {
     List notesWidgets = [];
-    double height = MediaQuery.of(context).size.height / 5;
 
     for (var i = 0; i < widget.notes.length; i++) {
-      notesWidgets.add(Text(widget.notes[i].note!));
+      notesWidgets.add(Text(widget.notes[i].note));
       notesWidgets.add(const SizedBox(
         height: 30.0,
       ));
@@ -72,7 +71,7 @@ class NotesFormState extends State<NotesForm> {
                   height: 30.0,
                 ),
                 TextFieldHelper.getTextField(
-                    batchNameController, "Batch Name", widget.batch.name ?? ""),
+                    batchNameController, "Batch Name", widget.batch.name),
                 imageContainer
               ])),
         ));

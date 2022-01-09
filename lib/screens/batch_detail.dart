@@ -1,19 +1,23 @@
 import 'dart:io';
 import 'dart:developer' as dev;
-import 'package:distillers_calculator/classes/batch.dart';
-import 'package:distillers_calculator/classes/note.dart';
+
 import 'package:distillers_calculator/classes/sql_helper.dart';
+import 'package:distillers_calculator/model/batch.dart';
+import 'package:distillers_calculator/model/image_note.dart';
+import 'package:distillers_calculator/model/note.dart';
+import 'package:distillers_calculator/model/sortable_note.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
-import 'package:distillers_calculator/widgets/batch_detail_form.dart';
-import 'package:distillers_calculator/widgets/notes_form.dart';
+import 'package:distillers_calculator/widgets/text_entry_overlay.dart';
 import 'package:flutter/material.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sprintf/sprintf.dart';
+import 'package:uuid/uuid.dart';
 
 class BatchDetail extends StatefulWidget {
-  final int batchID;
+  final Batch batch;
 
-  const BatchDetail({required this.batchID, Key? key}) : super(key: key);
+  const BatchDetail({required this.batch, Key? key}) : super(key: key);
   @override
   _BatchDetailState createState() => _BatchDetailState();
 }
@@ -21,40 +25,30 @@ class BatchDetail extends StatefulWidget {
 class _BatchDetailState extends State<BatchDetail> {
   final _image = [];
   final _picker = ImagePicker();
-  var _isLoading = true;
-  var _notesLoading = true;
 
   @override
   void initState() {
     super.initState();
-    getAsync();
     getNotes();
   }
 
-  Batch batch = Batch.empty();
-  List<Note> notes = [];
-
-  getAsync() async {
-    try {
-      var data = await SQLHelper.getItem(widget.batchID);
-      setState(() {
-        batch = data;
-        _isLoading = false;
-      });
-    } catch (e) {
-      dev.log(e.toString());
-    }
-  }
+  List<SortableNote> notes = [];
 
   getNotes() async {
     try {
-      var notesData = await SQLHelper.getNotes(widget.batchID);
+      var notesData = await SQLHelper.getTextNotes(widget.batch.id);
+      var imgData = await SQLHelper.getImageNotes(widget.batch.id);
+
+      List<SortableNote> notesFuture = [];
+      notesFuture.addAll(List.from(notesData)..addAll(imgData));
+
+      notesFuture.sort((b, a) => a.createdAtDate.compareTo(b.createdAtDate));
       setState(() {
-        notes = notesData;
-        _notesLoading = false;
+        notes = notesFuture;
       });
     } catch (e) {
       dev.log(e.toString());
+      rethrow;
     }
   }
 
@@ -78,8 +72,8 @@ class _BatchDetailState extends State<BatchDetail> {
             ),
             backgroundColor: LightColors.kLightYellow,
             body: Column(children: [
-              Text(batch.name!,
-                  style: TextStyle(
+              Text(widget.batch.name,
+                  style: const TextStyle(
                       color: LightColors.kDarkBlue,
                       fontSize: 30.0,
                       fontWeight: FontWeight.w700,
@@ -97,10 +91,7 @@ class _BatchDetailState extends State<BatchDetail> {
   }
 
   _saveNote(String note) {
-    if (batch.id == null) {
-      throw ArgumentError("invalid batch id");
-    }
-    SQLHelper.saveNote(batch.id!, note);
+    SQLHelper.saveNote(widget.batch.id, note);
 
     setState(() {
       getNotes();
@@ -211,136 +202,49 @@ class _BatchDetailState extends State<BatchDetail> {
         });
   }
 
-  void addImage(File selectedFile) {
+  void _saveImage(File selectedFile) {
     _image.add(selectedFile);
-    GallerySaver.saveImage(selectedFile.path);
-    dev.log("test");
+    SQLHelper.saveImageNote(widget.batch.id, selectedFile.path);
+    dev.log("added image:" + selectedFile.path);
   }
 
   _imgFromCamera(ImageSource source) async {
-    var pickedFile = await _picker.getImage(source: source);
+    var image = await _picker.getImage(source: source);
+
+    final path = await getApplicationDocumentsDirectory();
+
+    String savePath = path.path;
+    String fileName =
+        sprintf("Batch:%s:%s", [widget.batch.id, const Uuid().v4()]);
+
+    final File newImage = await File(image!.path).copy('$savePath/$fileName');
+
+// copy the file to a new path
     setState(() {
-      if (pickedFile != null) {
-        addImage(File(pickedFile.path));
-      } else {
-        dev.log('No image selected.');
-      }
+      _saveImage(File(newImage.path));
+      getNotes();
     });
   }
 
   getNotesList() {
+    double height = MediaQuery.of(context).size.height / 5;
     return ListView.builder(
         itemCount: notes.length,
         itemBuilder: (BuildContext context, int position) {
-          return Card(
-            color: Colors.white,
-            elevation: 2.0,
-            child: ListTile(
-              leading: const CircleAvatar(
-                backgroundColor: Colors.amber,
-                child: Text("a"),
-              ),
-              title: Text(notes[position].note!,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  GestureDetector(
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onTap: () {},
-                  ),
-                ],
-              ),
-              onTap: () {
-                debugPrint("ListTile Tapped");
-              },
-            ),
-          );
+          if (notes[position] is TextNote) {
+            TextNote thisNote = notes[position] as TextNote;
+
+            return Column(children: [Text(thisNote.note)]);
+          } else if (notes[position] is ImageNote) {
+            ImageNote thisNote = notes[position] as ImageNote;
+
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(thisNote.imagePath, height: height),
+            );
+          } else {
+            throw UnimplementedError("unkwonn type of note");
+          }
         });
-  }
-}
-
-class TextEntryOverlay extends ModalRoute<void> {
-  Function saveNote;
-  TextEntryOverlay(this.saveNote);
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 500);
-
-  @override
-  bool get opaque => true;
-
-  @override
-  bool get barrierDismissible => false;
-
-  @override
-  Color get barrierColor => LightColors.kLightYellow;
-
-  @override
-  String get barrierLabel => "";
-
-  @override
-  bool get maintainState => true;
-  var textFormField = TextEditingController();
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
-    // This makes sure that text and other content follows the material style
-    return Material(
-        type: MaterialType.transparency,
-        // make sure that the overlay content is not cut off
-        child: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text(
-                  'Enter in notes here',
-                  style:
-                      TextStyle(color: LightColors.kDarkBlue, fontSize: 30.0),
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-                  child: TextFormField(
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    controller: textFormField,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: textFormField.clear,
-                        icon: const Icon(Icons.clear),
-                      ),
-                      border: const OutlineInputBorder(),
-                      labelText: "test",
-                    ),
-                  ),
-                ),
-                Row(children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Dismiss'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      saveNote(textFormField.text);
-                    },
-                    child: const Text('Save Note'),
-                  )
-                ]),
-              ],
-            ),
-          ),
-        ));
   }
 }

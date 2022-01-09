@@ -28,6 +28,9 @@ dependencies:
   sprintf:
   sqflite:
   gallery_saver:
+  path_provider:
+  uuid:
+  intl:
 
 dev_dependencies:
   test: 

@@ -1,22 +1,24 @@
 import 'package:distillers_calculator/classes/sql_helper.dart';
-import 'package:distillers_calculator/screens/batch_detail.dart';
+import 'package:distillers_calculator/model/batch.dart';
 import 'package:flutter/material.dart';
 
-class Batch extends StatefulWidget {
-  const Batch({Key? key}) : super(key: key);
+import 'batch_detail.dart';
+
+class BatchList extends StatefulWidget {
+  const BatchList({Key? key}) : super(key: key);
 
   @override
-  _BatchState createState() => _BatchState();
+  _BatchListState createState() => _BatchListState();
 }
 
-class _BatchState extends State<Batch> {
+class _BatchListState extends State<BatchList> {
   // All journals
-  List<Map<String, dynamic>> _journals = [];
+  List<Batch> _journals = [];
 
   bool _isLoading = true;
   // This function is used to fetch all data from the database
   void _refreshJournals() async {
-    final data = await SQLHelper.getItems();
+    final data = await SQLHelper.getBatches();
     setState(() {
       _journals = data;
       _isLoading = false;
@@ -39,9 +41,8 @@ class _BatchState extends State<Batch> {
       // id == null -> create new item
       // id != null -> update an existing item
       final existingJournal =
-          _journals.firstWhere((element) => element['id'] == id);
-      _titleController.text = existingJournal['title'];
-      _descriptionController.text = existingJournal['description'];
+          _journals.firstWhere((element) => element.id == id);
+      _titleController.text = existingJournal.name;
     }
 
     showModalBottomSheet(
@@ -108,12 +109,13 @@ class _BatchState extends State<Batch> {
 
   // Update an existing journal
   Future<void> _updateItem(int id) async {
-    await SQLHelper.updateItem(
+    await SQLHelper.updateBatch(
         id, _titleController.text, _descriptionController.text);
     _refreshJournals();
   }
 
   // Delete an item
+  // ignore: unused_element
   void _deleteItem(int id) async {
     await SQLHelper.deleteItem(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -135,33 +137,39 @@ class _BatchState extends State<Batch> {
           : ListView.builder(
               itemCount: _journals.length,
               itemBuilder: (context, index) => Card(
-                color: Colors.orange[200],
-                margin: const EdgeInsets.all(15),
+                elevation: 5,
                 child: ListTile(
-                    title: Text(_journals[index]['title']),
-                    subtitle: Text(_journals[index]['description']),
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => _showForm(_journals[index]['id']),
-                          ),
-                          IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => BatchDetail(
-                                          batchID: _journals[index]['id'])))),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () =>
-                                _deleteItem(_journals[index]['id']),
-                          ),
-                        ],
-                      ),
-                    )),
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.search,
+                    ),
+                    iconSize: 50,
+                    color: Colors.green,
+                    splashColor: Colors.purple,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              BatchDetail(batch: _journals[index]),
+                        ),
+                      );
+                    },
+                  ),
+                  title: Text(_journals[index].name),
+                  subtitle: Text(_journals[index].createdAt),
+                  trailing: IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                    ),
+                    iconSize: 50,
+                    color: Colors.green,
+                    splashColor: Colors.purple,
+                    onPressed: () {
+                      _showForm(_journals[index].id);
+                    },
+                  ),
+                ),
               ),
             ),
       floatingActionButton: FloatingActionButton(

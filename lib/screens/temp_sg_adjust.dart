@@ -1,5 +1,5 @@
-import 'package:distillers_calculator/classes/specific_gravity.dart';
 import 'package:distillers_calculator/helpers/number_field.dart';
+import 'package:distillers_calculator/model/specific_gravity.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'package:flutter/services.dart';

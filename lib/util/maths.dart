@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:developer' as dev;
 
-import 'package:distillers_calculator/classes/specific_gravity.dart';
+import 'package:distillers_calculator/model/specific_gravity.dart';
 import 'package:distillers_calculator/util/math_results.dart';
 import 'package:sprintf/sprintf.dart';
 

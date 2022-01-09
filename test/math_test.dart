@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:distillers_calculator/classes/specific_gravity.dart';
+import 'package:distillers_calculator/model/specific_gravity.dart';
 import 'package:distillers_calculator/util/maths.dart';
 import 'package:distillers_calculator/classes/table6.dart';
 import 'package:test/test.dart';
