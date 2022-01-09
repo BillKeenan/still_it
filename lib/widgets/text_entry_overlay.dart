@@ -33,52 +33,55 @@ class TextEntryOverlay extends ModalRoute<void> {
     return Material(
         type: MaterialType.transparency,
         // make sure that the overlay content is not cut off
-        child: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text(
-                  'Enter in notes here',
-                  style:
-                      TextStyle(color: LightColors.kDarkBlue, fontSize: 30.0),
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
-                  child: TextFormField(
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    controller: textFormField,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: textFormField.clear,
-                        icon: const Icon(Icons.clear),
-                      ),
-                      border: const OutlineInputBorder(),
-                      labelText: "test",
+        child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: SafeArea(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text(
+                      'Enter in notes here',
+                      style: TextStyle(
+                          color: LightColors.kDarkBlue, fontSize: 30.0),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
+                    Container(
+                      margin:
+                          const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
+                      child: TextFormField(
+                        controller: textFormField,
+                        maxLines: 10,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: textFormField.clear,
+                            icon: const Icon(Icons.clear),
+                          ),
+                          border: const OutlineInputBorder(),
+                          labelText: "test",
+                        ),
+                      ),
+                    ),
+                    Row(children: [
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Dismiss'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          saveNote(textFormField.text);
+                        },
+                        child: const Text('Save Note'),
+                      )
+                    ]),
+                  ],
                 ),
-                Row(children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Dismiss'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      saveNote(textFormField.text);
-                    },
-                    child: const Text('Save Note'),
-                  )
-                ]),
-              ],
-            ),
-          ),
-        ));
+              ),
+            )));
   }
 }
