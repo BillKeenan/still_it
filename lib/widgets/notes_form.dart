@@ -1,7 +1,7 @@
 // Create a Form widget.
 import 'package:distillers_calculator/helpers/text_field.dart';
 import 'package:distillers_calculator/model/batch.dart';
-import 'package:distillers_calculator/model/note.dart';
+import 'package:distillers_calculator/model/text_note.dart';
 import 'package:flutter/material.dart';
 
 class NotesForm extends StatefulWidget {

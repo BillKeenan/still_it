@@ -88,14 +88,8 @@ class ImageNote implements SortableNote {
   }
 
   @override
-  String shortCreatedDateTime() {
-    // TODO: implement shortCreatedDateTime
-    throw UnimplementedError();
-  }
-
-  @override
-  int get createdAtDate {
+  DateTime get createdAtDate {
     var dt = DateTime.parse(createdAt);
-    return dt.millisecondsSinceEpoch;
+    return dt;
   }
 }

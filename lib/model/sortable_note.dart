@@ -9,11 +9,7 @@ class SortableNote {
     required this.createdAt,
   });
 
-  String shortCreatedDateTime() {
-    return "not set";
-  }
-
-  int get createdAtDate {
-    return 0;
+  DateTime get createdAtDate {
+    return DateTime.now();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:distillers_calculator/model/batch.dart';
 import 'package:distillers_calculator/model/image_note.dart';
-import 'package:distillers_calculator/model/note.dart';
+import 'package:distillers_calculator/model/specific_gravity_note.dart';
+import 'package:distillers_calculator/model/text_note.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
@@ -17,6 +18,14 @@ class SQLHelper {
     await database.execute("""CREATE TABLE textNote(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         note TEXT,
+        batch INTEGER,
+        createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+      """);
+
+    await database.execute("""CREATE TABLE specificGravityNote(
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        sg REAL,
         batch INTEGER,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
@@ -159,5 +168,31 @@ class SQLHelper {
     }
 
     return batches;
+  }
+
+  static Future<int> saveSG(int batchId, num sg) async {
+    final db = await SQLHelper.db();
+
+    final data = {'sg': sg, 'batch': batchId};
+    final id = await db.insert('specificGravityNote', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    return id;
+  }
+
+  static getSpecificGravityNotes(int batchID) async {
+    final db = await SQLHelper.db();
+
+    List<Map<String, dynamic>> maps = await db.query('specificGravityNote',
+        columns: ['id', 'sg', 'batch', 'createdAt'],
+        where: 'batch = ?',
+        whereArgs: [batchID],
+        orderBy: "createdAt desc");
+
+    List<SpecificGravityNote> imageNotes = [];
+    for (var element in maps) {
+      imageNotes.add(SpecificGravityNote.fromMap(element));
+    }
+
+    return imageNotes;
   }
 }

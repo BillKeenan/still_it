@@ -19,12 +19,6 @@ class TextNote implements SortableNote {
     required this.batchId,
   });
 
-  @override
-  String shortCreatedDateTime() {
-    // TODO: implement shortCreatedDateTime
-    throw UnimplementedError();
-  }
-
   TextNote copyWith({
     String? note,
     int? id,
@@ -84,8 +78,8 @@ class TextNote implements SortableNote {
   }
 
   @override
-  int get createdAtDate {
+  DateTime get createdAtDate {
     var dt = DateTime.parse(createdAt);
-    return dt.millisecondsSinceEpoch;
+    return dt;
   }
 }

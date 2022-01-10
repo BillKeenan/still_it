@@ -4,10 +4,17 @@ import 'dart:developer' as dev;
 import 'package:distillers_calculator/classes/sql_helper.dart';
 import 'package:distillers_calculator/model/batch.dart';
 import 'package:distillers_calculator/model/image_note.dart';
-import 'package:distillers_calculator/model/note.dart';
+import 'package:distillers_calculator/model/specific_gravity_note.dart';
+import 'package:distillers_calculator/model/text_note.dart';
 import 'package:distillers_calculator/model/sortable_note.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
+import 'package:distillers_calculator/widgets/image_note_widget.dart';
+import 'package:distillers_calculator/widgets/image_overlay.dart';
+import 'package:distillers_calculator/widgets/specific_gravity_overlay.dart';
+import 'package:distillers_calculator/widgets/specific_gravity_widget.dart';
 import 'package:distillers_calculator/widgets/text_entry_overlay.dart';
+import 'package:distillers_calculator/widgets/text_note_widget.dart';
+import 'package:distillers_calculator/widgets/text_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -38,9 +45,12 @@ class _BatchDetailState extends State<BatchDetail> {
     try {
       var notesData = await SQLHelper.getTextNotes(widget.batch.id);
       var imgData = await SQLHelper.getImageNotes(widget.batch.id);
+      var sgData = await SQLHelper.getSpecificGravityNotes(widget.batch.id);
 
       List<SortableNote> notesFuture = [];
-      notesFuture.addAll(List.from(notesData)..addAll(imgData));
+      notesFuture.addAll(List.from(notesData)
+        ..addAll(imgData)
+        ..addAll(sgData));
 
       notesFuture.sort((b, a) => a.createdAtDate.compareTo(b.createdAtDate));
       setState(() {
@@ -72,6 +82,7 @@ class _BatchDetailState extends State<BatchDetail> {
             ),
             backgroundColor: LightColors.kLightYellow,
             body: Column(children: [
+              const SizedBox(height: 30),
               Text(widget.batch.name,
                   style: const TextStyle(
                       color: LightColors.kDarkBlue,
@@ -92,6 +103,14 @@ class _BatchDetailState extends State<BatchDetail> {
 
   _saveNote(String note) {
     SQLHelper.saveNote(widget.batch.id, note);
+
+    setState(() {
+      getNotes();
+    });
+  }
+
+  _saveSG(num sg) {
+    SQLHelper.saveSG(widget.batch.id, sg);
 
     setState(() {
       getNotes();
@@ -120,7 +139,30 @@ class _BatchDetailState extends State<BatchDetail> {
                     GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          _showOverlay(context);
+                          _showSpecificGravityEntryOverlay(context);
+                        },
+                        child: const CircleAvatar(
+                          radius: 20.0,
+                          backgroundColor: LightColors.kRed,
+                          child: Icon(
+                            Icons.note_add,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        )),
+                    const Text(
+                      "Add Specific Gravity",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ]),
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          _showTextEntryOverlay(context);
                         },
                         child: const CircleAvatar(
                           radius: 20.0,
@@ -146,7 +188,7 @@ class _BatchDetailState extends State<BatchDetail> {
                     GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
-                          _showImageForm(context);
+                          _showImageEntryOverlay(context);
                         },
                         child: const CircleAvatar(
                           radius: 20.0,
@@ -168,11 +210,23 @@ class _BatchDetailState extends State<BatchDetail> {
                 ])));
   }
 
-  void _showOverlay(BuildContext context) {
+  void _showTextEntryOverlay(BuildContext context) {
     Navigator.of(context).push(TextEntryOverlay(_saveNote));
   }
 
-  void _showImageForm(BuildContext context) async {
+  _showSpecificGravityEntryOverlay(BuildContext context) {
+    Navigator.of(context).push(SpecificGravityOverlay(_saveSG));
+  }
+
+  void _showTextOverlay(TextNote note) {
+    Navigator.of(context).push(TextOverlay(note));
+  }
+
+  void _showImageOverlay(ImageNote note) {
+    Navigator.of(context).push(ImageOverlay(note));
+  }
+
+  void _showImageEntryOverlay(BuildContext context) async {
     // Ensure that plugin services are initialized so that `availableCameras()`
 // can be called before `runApp()`
     WidgetsFlutterBinding.ensureInitialized();
@@ -227,24 +281,29 @@ class _BatchDetailState extends State<BatchDetail> {
   }
 
   getNotesList() {
-    double height = MediaQuery.of(context).size.height / 5;
-    return ListView.builder(
-        itemCount: notes.length,
-        itemBuilder: (BuildContext context, int position) {
-          if (notes[position] is TextNote) {
-            TextNote thisNote = notes[position] as TextNote;
-
-            return Column(children: [Text(thisNote.note)]);
-          } else if (notes[position] is ImageNote) {
-            ImageNote thisNote = notes[position] as ImageNote;
-
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(thisNote.imagePath, height: height),
-            );
-          } else {
-            throw UnimplementedError("unkwonn type of note");
-          }
-        });
+    double height = MediaQuery.of(context).size.height / 8;
+    return ListView.separated(
+      padding: const EdgeInsets.all(10),
+      itemCount: notes.length,
+      itemBuilder: (BuildContext context, int index) {
+        if (notes[index] is TextNote) {
+          return TextNoteWidget(
+              note: notes[index] as TextNote,
+              height: height,
+              callback: _showTextOverlay);
+        } else if (notes[index] is ImageNote) {
+          return ImageNoteWidget(
+              note: notes[index] as ImageNote,
+              height: height,
+              callback: _showImageOverlay);
+        } else if (notes[index] is SpecificGravityNote) {
+          return SpecificGravityWidget(
+              note: notes[index] as SpecificGravityNote, height: height);
+        } else {
+          throw UnimplementedError("unknown type of note");
+        }
+      },
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+    );
   }
 }
