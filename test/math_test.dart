@@ -54,4 +54,14 @@ void main() {
     var answer = Maths.sgTempAdjust(SpecificGravity(1.02), 10, 20);
     expect(Maths.roundToXDecimals(answer.sg, 4), 1.0185);
   });
+
+  test('liqueur test', () {
+    var water = 750;
+    var source = 500;
+    var sourceABV = 95;
+    var sugar = 150;
+
+    var answer = Maths.liqueur(water, source, sourceABV, sugar);
+    expect(Maths.roundToXDecimals(answer, 4), 35.3333);
+  });
 }
