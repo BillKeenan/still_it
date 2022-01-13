@@ -1,6 +1,7 @@
 import 'package:distillers_calculator/classes/sql_helper.dart';
 import 'package:distillers_calculator/model/batch.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'batch_detail.dart';
 
@@ -75,6 +76,8 @@ class _BatchListState extends State<BatchList> {
                   const SizedBox(
                     height: 20,
                   ),
+                  const Text("date Batch Started"),
+                  SfDateRangePicker(showActionButtons: false),
                   ElevatedButton(
                     onPressed: () async {
                       // Save new journal

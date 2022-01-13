@@ -33,7 +33,7 @@ class SpecificGravityWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(20),
                               child: Text(Maths.roundToXDecimals(note.sg, 4)
                                   .toString()),
-                              color: LightColors.kDarkYellow))))))
+                              color: LightColors.kLightGreen))))))
     ]);
   }
 }
