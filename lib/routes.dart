@@ -1,5 +1,6 @@
 import 'package:distillers_calculator/screens/batch_list.dart';
 import 'package:distillers_calculator/screens/dilution.dart';
+import 'package:distillers_calculator/screens/liqueur.dart';
 import 'package:distillers_calculator/screens/sugar.dart';
 import 'package:distillers_calculator/screens/temp_converter.dart';
 import 'package:distillers_calculator/screens/temp_sg_adjust.dart';
@@ -15,4 +16,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/TempAdjust": (BuildContext context) => const TempSGAdjust(),
   "/TempConvert": (BuildContext context) => const TempConvert(),
   "/Batch": (BuildContext context) => const BatchList(),
+  "/Liqueur": (BuildContext context) => LiqueurPage(),
 };
