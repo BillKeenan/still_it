@@ -1,5 +1,4 @@
 import 'package:distillers_calculator/helpers/number_field.dart';
-import 'package:distillers_calculator/classes/table6.dart';
 import 'package:flutter/material.dart';
 
 import '../util/maths.dart';
@@ -93,13 +92,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 1.5),
               ),
             ),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 waterController, "How Much water did you add (ml)?"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sourceController, "How Much alcohol did you add (ml)?"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sourceABVController, "ABV of alcohol", 0, 100),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sugarController, "How Much sugar did you add (mg)?"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(

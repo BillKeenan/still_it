@@ -156,12 +156,13 @@ homeScreen() {
                           title: 'Sugar Wash Calculator',
                           subtitle: 'How much sugar? How much water?',
                           onTapNav: '/Sugar'),
+                      SizedBox(height: 15.0),
                       const TaskColumn(
                           iconSize: 30,
                           icon: Icons.local_drink_outlined,
                           iconBackgroundColor: LightColors.kRed,
-                          title: 'BVatch',
-                          subtitle: 'How much sugar? How much water?',
+                          title: 'Batch Log',
+                          subtitle: 'Keep a diary of your run',
                           onTapNav: '/Batch'),
                       SizedBox(height: 15.0),
                       TaskColumn(
