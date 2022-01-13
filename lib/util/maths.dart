@@ -118,4 +118,16 @@ class Maths {
 
     return SpecificGravity(cg);
   }
+
+  static liqueur(int water, int source, int sourceABV, int sugar) {
+    //transform sugar to ml
+    var sugarML = sugar / 1.59;
+
+    var totalVolum3 = water + source + sugarML;
+    var alcVOl = source * sourceABV;
+
+    var finalABV = alcVOl / totalVolum3;
+
+    return finalABV;
+  }
 }
