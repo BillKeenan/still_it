@@ -8,7 +8,7 @@ import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class TempSGAdjust extends StatefulWidget {
-  TempSGAdjust({Key? key}) : super();
+  const TempSGAdjust({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -47,7 +47,7 @@ class _TempSGAdjust extends State<TempSGAdjust> {
               backgroundColor: LightColors.kDarkYellow,
               foregroundColor: LightColors.kDarkBlue,
             ),
-            body: const MyCustomForm(),
+            body: const SingleChildScrollView(child: MyCustomForm()),
             resizeToAvoidBottomInset: false));
   }
 }

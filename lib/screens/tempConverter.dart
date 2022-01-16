@@ -47,7 +47,7 @@ class _TempConverter extends State<TempConvert> {
               backgroundColor: LightColors.kDarkYellow,
               foregroundColor: LightColors.kDarkBlue,
             ),
-            body: const MyCustomForm(),
+            body: const SingleChildScrollView(child: MyCustomForm()),
             resizeToAvoidBottomInset: false));
   }
 }
