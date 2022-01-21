@@ -1,3 +1,5 @@
+import 'package:distillers_calculator/routes.dart';
+import 'package:distillers_calculator/screens/volume.dart';
 import 'package:flutter/material.dart';
 
 class TaskColumn extends StatelessWidget {
@@ -22,7 +24,7 @@ class TaskColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, onTapNav);
+          Navigator.of(context).push(_createRoute(onTapNav));
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,5 +60,24 @@ class TaskColumn extends StatelessWidget {
             )
           ],
         ));
+  }
+
+  Route _createRoute(page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }
