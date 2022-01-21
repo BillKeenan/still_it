@@ -1,7 +1,6 @@
-import 'package:distillers_calculator/routes.dart';
-import 'package:distillers_calculator/screens/volume.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TaskColumn extends StatelessWidget {
   final IconData icon;
   final Color iconBackgroundColor;
@@ -10,14 +9,14 @@ class TaskColumn extends StatelessWidget {
 
   final double iconSize;
 
-  final String onTapNav;
-  const TaskColumn({
+  Widget onTapNav;
+  TaskColumn({
     Key? key,
     required this.icon,
     required this.iconBackgroundColor,
-    required this.iconSize,
     required this.title,
     required this.subtitle,
+    required this.iconSize,
     required this.onTapNav,
   }) : super(key: key);
 

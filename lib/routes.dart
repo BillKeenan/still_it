@@ -16,5 +16,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/TempAdjust": (BuildContext context) => const TempSGAdjust(),
   "/TempConvert": (BuildContext context) => const TempConvert(),
   "/Batch": (BuildContext context) => const BatchList(),
-  "/Liqueur": (BuildContext context) => LiqueurPage(),
+  "/Liqueur": (BuildContext context) => const LiqueurPage(),
 };

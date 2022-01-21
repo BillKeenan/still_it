@@ -5,7 +5,7 @@ import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class LiqueurPage extends StatefulWidget {
-  LiqueurPage({Key? key}) : super();
+  const LiqueurPage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
