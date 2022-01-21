@@ -1,3 +1,11 @@
+import 'package:distillers_calculator/screens/dilution.dart';
+import 'package:distillers_calculator/screens/liqueur.dart';
+import 'package:distillers_calculator/screens/sgABV.dart';
+import 'package:distillers_calculator/screens/sg_abv.dart';
+import 'package:distillers_calculator/screens/sugar.dart';
+import 'package:distillers_calculator/screens/tempConverter.dart';
+import 'package:distillers_calculator/screens/tempSGAdjust.dart';
+import 'package:distillers_calculator/screens/volume.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'package:distillers_calculator/widgets/still_header.dart';
@@ -22,8 +30,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  final _pageOptions = [homeScreen(), calculatorScreen()];
   var selectedPage = 0;
+  final _pageOptions = [HomeScreen(), CalculatorScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -82,15 +90,15 @@ calculatorScreen() {
                     iconBackgroundColor: LightColors.kRed,
                     title: 'Specific Gravity adjustment',
                     subtitle: 'Adjust SG for temperature',
-                    onTapNav: '/TempAdjust'),
+                    onTapNav: TempSGAdjust()),
                 const SizedBox(height: 15.0),
-                const TaskColumn(
+                TaskColumn(
                     iconSize: 30,
                     icon: Icons.thermostat,
                     iconBackgroundColor: LightColors.kRed,
                     title: 'Celcius to Farenheight',
                     subtitle: 'Basic Temperature Conversions',
-                    onTapNav: '/TempConvert'),
+                    onTapNav: TempConvert()),
                 const SizedBox(height: 15.0)
               ]))
         ])))
@@ -129,16 +137,16 @@ homeScreen() {
                           iconBackgroundColor: LightColors.kRed,
                           title: 'ABV from Specific Gravity',
                           subtitle: 'What % did your wash end at',
-                          onTapNav: '/SpecificGravity'),
-                      const SizedBox(height: 15.0),
-                      const TaskColumn(
+                          onTapNav: SGPage()),
+                      SizedBox(height: 15.0),
+                      TaskColumn(
                           iconSize: 30,
                           icon: Icons.liquor_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Bottle Dilution',
                           subtitle: 'Make a bottle at a desired %',
-                          onTapNav: '/Volume'),
-                      const SizedBox(
+                          onTapNav: VolumePage()),
+                      SizedBox(
                         height: 15.0,
                       ),
                       const TaskColumn(
@@ -146,16 +154,16 @@ homeScreen() {
                           icon: Icons.sanitizer_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Dilution Calculator',
-                          subtitle: 'Dilute a volume down to a %',
-                          onTapNav: '/Dilution'),
-                      const SizedBox(height: 15.0),
-                      const TaskColumn(
+                          subtitle: 'Dillute a volume down to a %',
+                          onTapNav: DilutionPage()),
+                      SizedBox(height: 15.0),
+                      TaskColumn(
                           iconSize: 30,
                           icon: Icons.local_drink_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Sugar Wash Calculator',
                           subtitle: 'How much sugar? How much water?',
-                          onTapNav: '/Sugar'),
+                          onTapNav: SugarPage()),
                       SizedBox(height: 15.0),
                       const TaskColumn(
                           iconSize: 30,
@@ -171,7 +179,7 @@ homeScreen() {
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Liqueur Calculator',
                           subtitle: 'Whats the final ABV?',
-                          onTapNav: '/Liqueur'),
+                          onTapNav: LiqueurPage()),
                     ],
                   ),
                 ),
