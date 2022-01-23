@@ -102,7 +102,8 @@ class SpecificGravityForm extends StatelessWidget {
                 "Hydromter Calibration Temp (c)", 10, 20, 15),
             NumberFieldHelper.getNumberField(
                 sg1Controller, "Specific Gravity Reading"),
-            NumberFieldHelper.getNumberField(sg2Controller, "Current Temp (c)"),
+            NumberFieldHelper.getNumberField(
+                sg2Controller, "Current Temp (c)", 10, 40, 15),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {

@@ -133,7 +133,7 @@ class _BatchDetailState extends State<BatchDetail> {
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     GestureDetector(
@@ -151,13 +151,16 @@ class _BatchDetailState extends State<BatchDetail> {
                           ),
                         )),
                     const Text(
-                      "Add Specific Gravity",
+                      "Specific\nGravity",
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ]),
+                  const SizedBox(
+                    width: 30.0,
+                  ),
                   Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     GestureDetector(
                         onTap: () {
@@ -174,7 +177,7 @@ class _BatchDetailState extends State<BatchDetail> {
                           ),
                         )),
                     const Text(
-                      "Add Note",
+                      "Text Note",
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700,
@@ -200,7 +203,7 @@ class _BatchDetailState extends State<BatchDetail> {
                           ),
                         )),
                     const Text(
-                      "Add Photo",
+                      "Image Note",
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w700,

@@ -42,8 +42,14 @@ class TextOverlay extends ModalRoute<void> {
             child: Expanded(
                 child: SafeArea(
                     maintainBottomViewPadding: true,
-                    child: Container(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(children: [Text(textNote.note)]))))));
+                    child: Column(children: [
+                      IconButton(
+                        onPressed: () => {Navigator.pop(context)},
+                        icon: const Icon(Icons.check),
+                      ),
+                      Container(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(children: [Text(textNote.note)]))
+                    ])))));
   }
 }

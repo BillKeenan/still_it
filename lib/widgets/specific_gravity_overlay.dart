@@ -62,7 +62,9 @@ class SpecificGravityOverlay extends ModalRoute<void> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          saveSG(sg);
+                          if (sg != null) {
+                            saveSG(sg);
+                          }
                         },
                         child: const Text('Save Note'),
                       )

@@ -38,6 +38,15 @@ class SQLHelper {
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
       """);
+
+    await database.execute("""CREATE INDEX imageNote_batch 
+        ON imageNote(batch);""");
+
+    await database.execute("""CREATE INDEX textNote_batch 
+        ON textNote(batch);""");
+
+    await database.execute("""CREATE INDEX specificGravityNote_batch 
+        ON specificGravityNote(batch);""");
   }
 // id: the id of a item
 // title, description: name and description of your activity
