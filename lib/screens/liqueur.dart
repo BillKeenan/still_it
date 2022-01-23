@@ -1,12 +1,11 @@
 import 'package:distillers_calculator/helpers/number_field.dart';
-import 'package:distillers_calculator/classes/table6.dart';
 import 'package:flutter/material.dart';
 
 import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class LiqueurPage extends StatefulWidget {
-  LiqueurPage({Key? key}) : super();
+  const LiqueurPage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -93,13 +92,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 1.5),
               ),
             ),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 waterController, "How Much water did you add (ml)?"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sourceController, "How Much alcohol did you add (ml)?"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sourceABVController, "ABV of alcohol", 0, 100),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sugarController, "How Much sugar did you add (mg)?"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(

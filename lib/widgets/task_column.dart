@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TaskColumn extends StatelessWidget {
   final IconData icon;
   final Color iconBackgroundColor;
@@ -8,21 +9,22 @@ class TaskColumn extends StatelessWidget {
 
   final double iconSize;
 
-  var onTapNav;
+  Widget onTapNav;
   TaskColumn({
+    Key? key,
     required this.icon,
     required this.iconBackgroundColor,
-    required this.iconSize,
     required this.title,
     required this.subtitle,
+    required this.iconSize,
     required this.onTapNav,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, onTapNav);
+          Navigator.of(context).push(_createRoute(onTapNav));
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,20 +38,20 @@ class TaskColumn extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.black45),
@@ -58,5 +60,24 @@ class TaskColumn extends StatelessWidget {
             )
           ],
         ));
+  }
+
+  Route _createRoute(page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }

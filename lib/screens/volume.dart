@@ -6,7 +6,7 @@ import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class VolumePage extends StatefulWidget {
-  VolumePage({Key? key}) : super();
+  const VolumePage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -36,7 +36,7 @@ class _VolumePageState extends State<VolumePage> {
         appBar: AppBar(
           title: const Text("Bottle Volume Calculator"),
         ),
-        body: SingleChildScrollView(child: const MyCustomForm()),
+        body: const SingleChildScrollView(child: MyCustomForm()),
         resizeToAvoidBottomInset: false);
   }
 }
@@ -86,12 +86,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 volumeController, "Desired Volume in ml"),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 fromPercentController, "ABV of source", 0, 100),
-            NumberField.getNumberField(toPercentController, "Desired final ABV",
-                0, int.tryParse(fromPercentController.text) ?? 100),
+            NumberFieldHelper.getNumberField(
+                toPercentController,
+                "Desired final ABV",
+                0,
+                int.tryParse(fromPercentController.text) ?? 100),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
@@ -104,16 +107,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                         int.parse(toPercentController.text));
 
                     answerSourceController.text =
-                        Maths.roundToXDecimals(vals.VolumeOfSourceToAdd, 0)
+                        Maths.roundToXDecimals(vals.volumeOfSourceToAdd, 0)
                             .toString();
                     answerWaterController.text =
-                        Maths.roundToXDecimals(vals.VolumeOfWaterToAdd, 0)
+                        Maths.roundToXDecimals(vals.volumeOfWaterToAdd, 0)
                             .toString();
                     FocusScope.of(context).requestFocus(FocusNode());
                     setState(() {});
                   }
                 },
-                child: Text('Calculate!'),
+                child: const Text('Calculate!'),
               ),
             ]),
             Container(
@@ -121,7 +124,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               child: TextFormField(
                 controller: answerSourceController,
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Add this much of your spirit",
                     border: InputBorder.none),
               ),
@@ -129,7 +132,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             TextFormField(
               controller: answerWaterController,
               readOnly: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Add this much water",
                 border: InputBorder.none,
               ),

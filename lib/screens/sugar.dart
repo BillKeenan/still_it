@@ -5,7 +5,7 @@ import '../../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class SugarPage extends StatefulWidget {
-  SugarPage({Key? key}) : super();
+  const SugarPage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -37,7 +37,7 @@ class _SugarPageState extends State<SugarPage> {
             appBar: AppBar(
               title: const Text("Sugar Wash Calculator"),
             ),
-            body: SingleChildScrollView(child: const MyCustomForm()),
+            body: const SingleChildScrollView(child: MyCustomForm()),
             resizeToAvoidBottomInset: false));
   }
 }
@@ -74,7 +74,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,8 +87,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(sugarController, "KG of Sugar"),
-            NumberField.getNumberField(waterController, "Volume of Water (L)"),
+            NumberFieldHelper.getNumberField(sugarController, "KG of Sugar"),
+            NumberFieldHelper.getNumberField(
+                waterController, "Volume of Water (L)"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
@@ -107,7 +108,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   }
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: Text('Calculate!'),
+                child: const Text('Calculate!'),
               ),
             ]),
             Container(

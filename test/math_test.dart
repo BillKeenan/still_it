@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:distillers_calculator/classes/specific_gravity.dart';
+import 'package:distillers_calculator/model/specific_gravity.dart';
 import 'package:distillers_calculator/util/maths.dart';
 import 'package:distillers_calculator/classes/table6.dart';
 import 'package:test/test.dart';
@@ -13,24 +13,24 @@ import 'package:test/test.dart';
 void main() {
   test('Volume (bottle) Test', () {
     var answer = Table6.volume(1000, 80, 40);
-    expect(answer.VolumeOfSourceToAdd, 500.0000000000001);
-    expect(answer.VolumeOfWaterToAdd, 518.9641799999999);
+    expect(answer.volumeOfSourceToAdd, 500.0000000000001);
+    expect(answer.volumeOfWaterToAdd, 518.9641799999999);
   });
 
   test('Volume (bottle) Test2', () {
     var answer = Table6.volume(500, 80, 40);
-    expect(answer.VolumeOfSourceToAdd, 250.00000000000006);
-    expect(answer.VolumeOfWaterToAdd, 259.48208999999997);
+    expect(answer.volumeOfSourceToAdd, 250.00000000000006);
+    expect(answer.volumeOfWaterToAdd, 259.48208999999997);
   });
 
   test('Dilution Test', () {
     var answer = Table6.dilution(1, 80, 40);
-    expect(answer.VolumeOfWaterToAdd, 1.04);
+    expect(answer.volumeOfWaterToAdd, 1.04);
   });
 
   test('Dilution Test2', () {
     var answer = Table6.dilution(100, 95.5, 94);
-    expect(answer.VolumeOfWaterToAdd, 1.84);
+    expect(answer.volumeOfWaterToAdd, 1.84);
   });
 
   test('Sugar Wash Test', () {
@@ -47,7 +47,7 @@ void main() {
 
   test('table 6 test', () {
     var answer = Table6.getVals(80);
-    expect(answer.Alcohol, 40);
+    expect(answer.alcohol, 40);
   });
 
   test('temp Adjust test', () {
