@@ -26,7 +26,7 @@ class StillHeader extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const <Widget>[
                       Text(
-                        'Distilers Calculators',
+                        'Distillers Calculators',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 22.0,

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             displayColor: LightColors.kDarkBlue,
             fontFamily: 'Poppins'),
       ),
-      title: 'Distilers Calculator',
+      title: 'Distillers Calculator',
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
       routes: routes,
