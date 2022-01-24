@@ -1,16 +1,19 @@
+import 'package:distillers_calculator/screens/batch_list.dart';
 import 'package:distillers_calculator/screens/dilution.dart';
 import 'package:distillers_calculator/screens/liqueur.dart';
-import 'package:distillers_calculator/screens/sgABV.dart';
+import 'package:distillers_calculator/screens/sg_abv.dart';
 import 'package:distillers_calculator/screens/sugar.dart';
-import 'package:distillers_calculator/screens/tempConverter.dart';
-import 'package:distillers_calculator/screens/tempSGAdjust.dart';
+import 'package:distillers_calculator/screens/temp_converter.dart';
+import 'package:distillers_calculator/screens/temp_sg_adjust.dart';
 import 'package:distillers_calculator/screens/volume.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
-import 'package:distillers_calculator/widgets/StillHeader.dart';
-import 'package:distillers_calculator/widgets/TaskColumn.dart';
+import 'package:distillers_calculator/widgets/still_header.dart';
+import 'package:distillers_calculator/widgets/task_column.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePage createState() => _HomePage();
 
@@ -28,7 +31,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   var selectedPage = 0;
-  final _pageOptions = [HomeScreen(), CalculatorScreen()];
+  final _pageOptions = [homeScreen(), calculatorScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -58,17 +61,18 @@ class _HomePage extends State<HomePage> {
   }
 }
 
-CalculatorScreen() {
+calculatorScreen() {
   return SafeArea(
       top: false,
       child: Column(children: <Widget>[
-        StillHeader(),
+        const StillHeader(),
         Expanded(
             child: SingleChildScrollView(
                 child: Column(children: <Widget>[
           Container(
               color: Colors.transparent,
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
               child: Column(children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,7 +81,7 @@ CalculatorScreen() {
                     HomePage.subheading('Conversions'),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 TaskColumn(
@@ -86,35 +90,35 @@ CalculatorScreen() {
                     iconBackgroundColor: LightColors.kRed,
                     title: 'Specific Gravity adjustment',
                     subtitle: 'Adjust SG for temperature',
-                    onTapNav: TempSGAdjust()),
-                SizedBox(height: 15.0),
+                    onTapNav: const TempSGAdjust()),
+                const SizedBox(height: 15.0),
                 TaskColumn(
                     iconSize: 30,
                     icon: Icons.thermostat,
                     iconBackgroundColor: LightColors.kRed,
                     title: 'Celcius to Farenheight',
                     subtitle: 'Basic Temperature Conversions',
-                    onTapNav: TempConvert()),
-                SizedBox(height: 15.0)
+                    onTapNav: const TempConvert()),
+                const SizedBox(height: 15.0)
               ]))
         ])))
       ]));
 }
 
-HomeScreen() {
+homeScreen() {
   return SafeArea(
     top: false,
     child: Column(
       children: <Widget>[
-        StillHeader(),
+        const StillHeader(),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 Container(
                   color: Colors.transparent,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 40.0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -124,7 +128,7 @@ HomeScreen() {
                           HomePage.subheading('Calculators'),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30.0,
                       ),
                       TaskColumn(
@@ -133,16 +137,16 @@ HomeScreen() {
                           iconBackgroundColor: LightColors.kRed,
                           title: 'ABV from Specific Gravity',
                           subtitle: 'What % did your wash end at',
-                          onTapNav: SGPage()),
-                      SizedBox(height: 15.0),
+                          onTapNav: const SGPage()),
+                      const SizedBox(height: 15.0),
                       TaskColumn(
                           iconSize: 30,
                           icon: Icons.liquor_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Bottle Dilution',
                           subtitle: 'Make a bottle at a desired %',
-                          onTapNav: VolumePage()),
-                      SizedBox(
+                          onTapNav: const VolumePage()),
+                      const SizedBox(
                         height: 15.0,
                       ),
                       TaskColumn(
@@ -151,23 +155,31 @@ HomeScreen() {
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Dilution Calculator',
                           subtitle: 'Dillute a volume down to a %',
-                          onTapNav: DilutionPage()),
-                      SizedBox(height: 15.0),
+                          onTapNav: const DilutionPage()),
+                      const SizedBox(height: 15.0),
                       TaskColumn(
                           iconSize: 30,
                           icon: Icons.local_drink_outlined,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Sugar Wash Calculator',
                           subtitle: 'How much sugar? How much water?',
-                          onTapNav: SugarPage()),
-                      SizedBox(height: 15.0),
+                          onTapNav: const SugarPage()),
+                      const SizedBox(height: 15.0),
+                      TaskColumn(
+                          iconSize: 30,
+                          icon: Icons.local_drink_outlined,
+                          iconBackgroundColor: LightColors.kRed,
+                          title: 'Batch Log',
+                          subtitle: 'Keep a diary of your run',
+                          onTapNav: const BatchList()),
+                      const SizedBox(height: 15.0),
                       TaskColumn(
                           iconSize: 30,
                           icon: Icons.no_drinks,
                           iconBackgroundColor: LightColors.kRed,
                           title: 'Liqueur Calculator',
                           subtitle: 'Whats the final ABV?',
-                          onTapNav: LiqueurPage()),
+                          onTapNav: const LiqueurPage()),
                     ],
                   ),
                 ),

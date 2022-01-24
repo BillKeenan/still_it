@@ -24,11 +24,11 @@ class Table6 {
     var desiredData = Table6.getVals((desiredABV * 2).toInt());
 
     var ratio =
-        Maths.dropMoreThan2Decimals(sourceData.Alcohol / desiredData.Alcohol);
+        Maths.dropMoreThan2Decimals(sourceData.alcohol / desiredData.alcohol);
 
-    var desiredWater = Maths.dropMoreThan2Decimals(desiredData.Water * ratio);
+    var desiredWater = Maths.dropMoreThan2Decimals(desiredData.water * ratio);
 
-    var waterDiff = Maths.roundTo2Decimals(desiredWater - sourceData.Water);
+    var waterDiff = Maths.roundTo2Decimals(desiredWater - sourceData.water);
 
     //the forumla is per/100 units
     double waterToAdd = Maths.roundTo2Decimals((waterDiff * volume) / 100);
@@ -66,7 +66,7 @@ And 430g 80%abv is 430 / 0.859 = 501ml.
     var endingSG = getVals(desiredABV * 2);
 
     //40%abv is SG 0.95. So the density is sg*waterDesnsity = 0.948kg/lt.
-    var endingDensity = endingSG.AlcoholSG * waterDensity;
+    var endingDensity = endingSG.alocholSG * waterDensity;
 
     //The abw is 40 x densitypureethanol / 0.948 = 33.3
     var endingABW = (desiredABV * pureEthDensity) / endingDensity;
@@ -83,7 +83,7 @@ And 430g 80%abv is 430 / 0.859 = 501ml.
 
     //80%abv is SG 0.861. So the density is 0.859kg/lt.
     var sourceSG = getVals(sourceABV * 2);
-    var sourceDensity = sourceSG.AlcoholSG * waterDensity;
+    var sourceDensity = sourceSG.alocholSG * waterDensity;
 
     //The abw is 80 x densitypureethanol / 0.859 = 73.5
     var sourceABW = (sourceABV * pureEthDensity) / sourceDensity;
@@ -324,16 +324,16 @@ And 430g 80%abv is 430 / 0.859 = 501ml.
 }
 
 class Table6Result {
-  int Proof;
-  num Water;
-  num Alcohol;
-  num AlcoholSG;
+  int proof;
+  num water;
+  num alcohol;
+  num alocholSG;
 
-  Table6Result(this.Proof, this.Alcohol, this.Water, this.AlcoholSG);
+  Table6Result(this.proof, this.alcohol, this.water, this.alocholSG);
 
   @override
   String toString() {
     return sprintf("Table6 Result: Water: %s, Alcohol %s, AlcoholSG %s",
-        [Water, Alcohol, AlcoholSG]);
+        [water, alcohol, alocholSG]);
   }
 }

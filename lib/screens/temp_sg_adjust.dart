@@ -1,5 +1,5 @@
-import 'package:distillers_calculator/classes/specific_gravity.dart';
 import 'package:distillers_calculator/helpers/number_field.dart';
+import 'package:distillers_calculator/model/specific_gravity.dart';
 import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'package:flutter/services.dart';
@@ -47,24 +47,23 @@ class _TempSGAdjust extends State<TempSGAdjust> {
               backgroundColor: LightColors.kDarkYellow,
               foregroundColor: LightColors.kDarkBlue,
             ),
-            body: const SingleChildScrollView(child: MyCustomForm()),
+            body: SpecificGravityForm(),
             resizeToAvoidBottomInset: false));
   }
 }
 
 // Create a Form widget.
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class SpecificGravityForm extends StatelessWidget {
+  Function? getSG;
 
-  @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
-}
+  SpecificGravityForm({
+    Key? key,
+  }) : super(key: key);
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+  SpecificGravityForm.withCallback({Key? key, required Function this.getSG})
+      : super(key: key);
+
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -77,8 +76,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController calibrationController = TextEditingController();
   TextEditingController answerController = TextEditingController();
 
-  SnackBar get snackBar => SnackBar(
-        content: const Text("Specific Gravity copied to clipboard"),
+  SnackBar get snackBar => const SnackBar(
+        content: Text("Specific Gravity copied to clipboard"),
       );
 
   @override
@@ -99,11 +98,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                     .apply(fontSizeFactor: 2.0),
               ),
             ),
-            NumberField.getNumberField(calibrationController,
+            NumberFieldHelper.getNumberField(calibrationController,
                 "Hydromter Calibration Temp (c)", 10, 20, 15),
-            NumberField.getNumberField(
+            NumberFieldHelper.getNumberField(
                 sg1Controller, "Specific Gravity Reading"),
-            NumberField.getNumberField(sg2Controller, "Current Temp (c)"),
+            NumberFieldHelper.getNumberField(
+                sg2Controller, "Current Temp (c)", 10, 40, 15),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
@@ -115,13 +115,17 @@ class MyCustomFormState extends State<MyCustomForm> {
                         num.parse(sg2Controller.text),
                         num.parse(calibrationController.text));
 
+                    var thisSG = vals.sg;
                     answerController.text =
                         Maths.roundToXDecimals(vals.sg, 4).toString();
-                    setState(() {});
+
+                    if (getSG != null) {
+                      getSG!(thisSG);
+                    }
                   }
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: Text('Calculate!'),
+                child: const Text('Calculate!'),
               ),
             ]),
             Container(
@@ -136,7 +140,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   });
                 },
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Adjusted SG, click to copy",
                     border: InputBorder.none),
               ),

@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 
-class NumberFieldHelper {
-  static getNumberField(TextEditingController controller, String labelText,
-      [int? min, int? max, num? initialVal]) {
-    if (initialVal != null && controller.text == "") {
+class TextFieldHelper {
+  static getTextField(
+      TextEditingController controller, String labelText, String initialVal) {
+    if (controller.text == "") {
       controller.text = initialVal.toString();
     }
     var containerVal = Container(
       margin: const EdgeInsets.only(left: 5.0, right: 5.0, top: 20),
       child: TextFormField(
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         validator: (value) {
           if (value!.isEmpty) {
             return 'Please enter ' + labelText;
-          }
-          if (min != null && num.parse(value) < min) {
-            return 'number can not be less than ' + min.toString();
-          }
-          if (max != null && num.parse(value) > max) {
-            return 'number can not be more than ' + max.toString();
           }
 
           return null;
