@@ -46,6 +46,7 @@ class SpecificGravityOverlay extends ModalRoute<void> {
               FocusScope.of(context).requestFocus(FocusNode());
             },
             child: SafeArea(
+                child: SingleChildScrollView(
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -72,6 +73,6 @@ class SpecificGravityOverlay extends ModalRoute<void> {
                   ],
                 ),
               ),
-            )));
+            ))));
   }
 }

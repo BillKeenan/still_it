@@ -50,7 +50,8 @@ class _BatchListState extends State<BatchList> {
         context: context,
         elevation: 5,
         isScrollControlled: true,
-        builder: (_) => Container(
+        builder: (_) => SingleChildScrollView(
+                child: Container(
               padding: EdgeInsets.only(
                 top: 15,
                 left: 15,
@@ -100,7 +101,7 @@ class _BatchListState extends State<BatchList> {
                   )
                 ],
               ),
-            ));
+            )));
   }
 
 // Insert a new journal to the database

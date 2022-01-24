@@ -47,7 +47,7 @@ class _TempSGAdjust extends State<TempSGAdjust> {
               backgroundColor: LightColors.kDarkYellow,
               foregroundColor: LightColors.kDarkBlue,
             ),
-            body: SpecificGravityForm(),
+            body: SingleChildScrollView(child: SpecificGravityForm()),
             resizeToAvoidBottomInset: false));
   }
 }

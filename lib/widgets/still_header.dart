@@ -10,7 +10,7 @@ class StillHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return TopContainer(
-      height: 200,
+      height: MediaQuery.of(context).size.height / 4,
       width: width,
       padding: const EdgeInsets.all(0),
       child: Column(
