@@ -11,6 +11,7 @@ class SQLHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name TEXT,
         description TEXT,
+        batchStartedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
       """);
@@ -55,18 +56,26 @@ class SQLHelper {
   static Future<sql.Database> db() async {
     return sql.openDatabase(
       'kindacode.db',
-      version: 1,
+      version: 2,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
+      },
+      onUpgrade: (sql.Database database, int oldVersion, int newVersion) async {
+        await upgradeDB(database, oldVersion, newVersion);
       },
     );
   }
 
   // Create new item (journal)
-  static Future<int> createItem(String name, String? descrption) async {
+  static Future<int> createItem(
+      String name, String? descrption, DateTime selectedDate) async {
     final db = await SQLHelper.db();
 
-    final data = {'name': name, 'description': descrption};
+    final data = {
+      'name': name,
+      'description': descrption,
+      'batchStartedDate': selectedDate.toString()
+    };
     final id = await db.insert('batch', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;
@@ -78,7 +87,7 @@ class SQLHelper {
     final db = await SQLHelper.db();
 
     List<Map<String, dynamic>> maps = await db.query('items',
-        columns: ['id', 'name', 'description'],
+        columns: ['id', 'name', 'description', 'batchStartedDate'],
         where: 'id = ?',
         whereArgs: [id]);
 
@@ -203,5 +212,18 @@ class SQLHelper {
     }
 
     return imageNotes;
+  }
+
+  static upgradeDB(
+      sql.Database database, int oldVersion, int newVersion) async {
+    if (oldVersion == 1 && newVersion == 2) {
+      await database.execute("""ALTER TABLE batch 
+        ADD batchStartedDate TIMESTAMP
+      """);
+
+      await database.execute("""UPDATE batch 
+        set batchStartedDate  =  CURRENT_TIMESTAMP
+      """);
+    }
   }
 }

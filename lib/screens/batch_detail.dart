@@ -8,6 +8,7 @@ import 'package:distillers_calculator/model/specific_gravity_note.dart';
 import 'package:distillers_calculator/model/text_note.dart';
 import 'package:distillers_calculator/model/sortable_note.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
+import 'package:distillers_calculator/util/maths.dart';
 import 'package:distillers_calculator/widgets/image_note_widget.dart';
 import 'package:distillers_calculator/widgets/image_overlay.dart';
 import 'package:distillers_calculator/widgets/specific_gravity_overlay.dart';
@@ -17,6 +18,7 @@ import 'package:distillers_calculator/widgets/text_note_widget.dart';
 import 'package:distillers_calculator/widgets/text_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:uuid/uuid.dart';
@@ -40,12 +42,15 @@ class _BatchDetailState extends State<BatchDetail> {
   }
 
   List<SortableNote> notes = [];
+  List<SpecificGravityNote> sgNotes = [];
 
   getNotes() async {
     try {
       var notesData = await SQLHelper.getTextNotes(widget.batch.id);
       var imgData = await SQLHelper.getImageNotes(widget.batch.id);
       var sgData = await SQLHelper.getSpecificGravityNotes(widget.batch.id);
+
+      sgNotes = sgData;
 
       List<SortableNote> notesFuture = [];
       notesFuture.addAll(List.from(notesData)
@@ -89,6 +94,8 @@ class _BatchDetailState extends State<BatchDetail> {
                       fontSize: 30.0,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1.2)),
+              getABVTable(),
+              const SizedBox(height: 30),
               Expanded(child: getNotesList())
             ]),
             resizeToAvoidBottomInset: false,
@@ -96,9 +103,7 @@ class _BatchDetailState extends State<BatchDetail> {
                 child: const Icon(Icons.add),
                 onPressed: () => setState(() {
                       _showChoiceForm(null);
-                    }))) //get json fname
-
-        );
+                    }))));
   }
 
   _saveNote(String note) {
@@ -281,6 +286,78 @@ class _BatchDetailState extends State<BatchDetail> {
       _saveImage(File(newImage.path));
       getNotes();
     });
+  }
+
+  getABVTable() {
+    double height = MediaQuery.of(context).size.height / 8;
+
+    List<TableRow> rows = [];
+    rows.add(TableRow(
+      children: <Widget>[
+        const SizedBox(height: 32, width: 60, child: Text("Batch Start Date")),
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.middle,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SizedBox(
+                height: 32,
+                width: 80,
+                child: Text(DateFormat('MMM-dd')
+                    .format(widget.batch.batchStartedDateAsDate))),
+          ),
+        ),
+      ],
+    ));
+    rows.add(TableRow(
+      children: <Widget>[
+        const SizedBox(height: 32, width: 60, child: Text("Age of Batch")),
+        TableCell(
+          verticalAlignment: TableCellVerticalAlignment.middle,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SizedBox(
+                height: 32,
+                width: 80,
+                child: Text(DateTime.now()
+                    .difference(widget.batch.batchStartedDateAsDate)
+                    .inDays
+                    .toString())),
+          ),
+        ),
+      ],
+    ));
+
+    if (sgNotes.length > 1) {
+      var abv = Maths.abvFromSg(sgNotes.last.sg, sgNotes.first.sg);
+
+      rows.add(TableRow(
+        children: <Widget>[
+          const SizedBox(height: 32, width: 60, child: Text("Expected ABV")),
+          TableCell(
+            verticalAlignment: TableCellVerticalAlignment.middle,
+            child: Align(
+                alignment: Alignment.topRight,
+                child: SizedBox(
+                  height: 32,
+                  width: 80,
+                  child: Text(abv.toString()),
+                )),
+          ),
+        ],
+      ));
+    }
+
+    return SizedBox(
+        height: height,
+        child: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Table(
+                columnWidths: const <int, TableColumnWidth>{
+                  0: FlexColumnWidth(64),
+                  1: FlexColumnWidth(64),
+                },
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: rows)));
   }
 
   getNotesList() {

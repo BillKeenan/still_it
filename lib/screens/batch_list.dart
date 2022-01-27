@@ -1,6 +1,7 @@
 import 'package:distillers_calculator/classes/sql_helper.dart';
 import 'package:distillers_calculator/model/batch.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'batch_detail.dart';
@@ -17,6 +18,8 @@ class _BatchListState extends State<BatchList> {
   List<Batch> _journals = [];
 
   bool _isLoading = true;
+
+  DateTime selectedDate = DateTime.now();
   // This function is used to fetch all data from the database
   void _refreshJournals() async {
     final data = await SQLHelper.getBatches();
@@ -78,7 +81,8 @@ class _BatchListState extends State<BatchList> {
                     height: 20,
                   ),
                   const Text("date Batch Started"),
-                  SfDateRangePicker(showActionButtons: false),
+                  SfDateRangePicker(
+                      showActionButtons: false, onSelectionChanged: setDate),
                   ElevatedButton(
                     onPressed: () async {
                       // Save new journal
@@ -107,7 +111,7 @@ class _BatchListState extends State<BatchList> {
 // Insert a new journal to the database
   Future<void> _addItem() async {
     await SQLHelper.createItem(
-        _titleController.text, _descriptionController.text);
+        _titleController.text, _descriptionController.text, selectedDate);
     _refreshJournals();
   }
 
@@ -161,7 +165,8 @@ class _BatchListState extends State<BatchList> {
                     },
                   ),
                   title: Text(_journals[index].name),
-                  subtitle: Text(_journals[index].createdAt),
+                  subtitle: Text(DateFormat('MMM-dd')
+                      .format(_journals[index].batchStartedDateAsDate)),
                   trailing: IconButton(
                     icon: const Icon(
                       Icons.edit,
@@ -181,5 +186,10 @@ class _BatchListState extends State<BatchList> {
         onPressed: () => _showForm(null),
       ),
     );
+  }
+
+  void setDate(
+      DateRangePickerSelectionChangedArgs dateRangePickerSelectionChangedArgs) {
+    selectedDate = dateRangePickerSelectionChangedArgs.value;
   }
 }

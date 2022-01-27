@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:distillers_calculator/model/sortable_note.dart';
+import 'package:distillers_calculator/model/specific_gravity.dart';
 
 class SpecificGravityNote implements SortableNote {
   @override
   int batchId;
 
-  num sg;
+  SpecificGravity sg;
   @override
   String createdAt;
 
@@ -27,7 +28,7 @@ class SpecificGravityNote implements SortableNote {
 
   SpecificGravityNote copyWith({
     int? batchId,
-    num? sg,
+    SpecificGravity? sg,
     String? createdAt,
     int? id,
   }) {
@@ -51,7 +52,7 @@ class SpecificGravityNote implements SortableNote {
   factory SpecificGravityNote.fromMap(Map<String, dynamic> map) {
     return SpecificGravityNote(
       batchId: map['batchId']?.toInt() ?? 0,
-      sg: map['sg'] ?? 0,
+      sg: SpecificGravity(map['sg'] ?? 0),
       createdAt: map['createdAt'] ?? '',
       id: map['id']?.toInt() ?? 0,
     );

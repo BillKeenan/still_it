@@ -31,7 +31,7 @@ class SpecificGravityWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50),
                           child: Container(
                               padding: const EdgeInsets.all(20),
-                              child: Text(Maths.roundToXDecimals(note.sg, 4)
+                              child: Text(Maths.roundToXDecimals(note.sg.sg, 4)
                                   .toString()),
                               color: LightColors.kLightGreen))))))
     ]);
