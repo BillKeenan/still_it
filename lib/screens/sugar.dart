@@ -97,8 +97,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
                     var vals = Maths.sugarWash(
-                      int.parse(sugarController.text),
-                      int.parse(waterController.text),
+                      num.parse(sugarController.text),
+                      num.parse(waterController.text),
                     );
 
                     answerSGController.text = vals[0].toString();

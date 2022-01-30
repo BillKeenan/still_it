@@ -49,7 +49,7 @@ class Maths {
     return abv;
   }
 
-  static sugarWash(int sugarKG, int litres) {
+  static sugarWash(num sugarKG, num litres) {
     var sg = num.tryParse((((258.6 + (87.96 * sugarKG / litres)) +
                 sqrt(66874 +
                     (7736.96 * sugarKG * sugarKG / (litres * litres)) +

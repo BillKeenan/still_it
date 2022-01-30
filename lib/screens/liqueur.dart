@@ -99,7 +99,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             NumberFieldHelper.getNumberField(
                 sourceABVController, "ABV of alcohol", 0, 100),
             NumberFieldHelper.getNumberField(
-                sugarController, "How Much sugar did you add (mg)?"),
+                sugarController, "How Much sugar did you add (gm)?"),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 onPressed: () {
