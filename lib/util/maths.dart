@@ -40,7 +40,7 @@ class Maths {
   static abvFromSg(SpecificGravity start, SpecificGravity end) {
     //v2 = (c1 * v1) / c2
 
-    var abv = num.tryParse(((start.sg - end.sg) * 131.25).toStringAsFixed(2));
+    var abv = (start.sg - end.sg) * 131.25;
 
     dev.log(
         sprintf('abvFromSg:Converted %s and %s to %s', [start.sg, end.sg, abv]),

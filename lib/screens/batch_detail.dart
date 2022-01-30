@@ -340,7 +340,7 @@ class _BatchDetailState extends State<BatchDetail> {
                 child: SizedBox(
                   height: 32,
                   width: 80,
-                  child: Text(abv.toString()),
+                  child: Text(Maths.roundTo2Decimals(abv).toString()),
                 )),
           ),
         ],

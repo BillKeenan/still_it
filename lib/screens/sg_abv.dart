@@ -102,11 +102,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState!.validate()) {
-                    var vals = Maths.abvFromSg(
+                    var abv = Maths.abvFromSg(
                         SpecificGravity(num.parse(sg1Controller.text)),
                         SpecificGravity(num.parse(sg2Controller.text)));
 
-                    answerController.text = vals.toString();
+                    answerController.text =
+                        Maths.roundTo2Decimals(abv).toString();
                     setState(() {});
                   }
                   FocusScope.of(context).requestFocus(FocusNode());

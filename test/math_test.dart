@@ -42,7 +42,7 @@ void main() {
     var answer =
         Maths.abvFromSg(SpecificGravity(1.050), SpecificGravity(1.010));
 
-    expect(answer, 5.25);
+    expect(Maths.roundTo2Decimals(answer), 5.25);
   });
 
   test('table 6 test', () {
