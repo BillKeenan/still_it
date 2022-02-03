@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'package:distillers_calculator/widgets/still_header.dart';
 import 'package:distillers_calculator/widgets/task_column.dart';
+import 'package:new_version/new_version.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,6 +31,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _showVersionChecker(context); //calling the method
+  }
+
   var selectedPage = 0;
   final _pageOptions = [homeScreen(), calculatorScreen()];
 
@@ -58,6 +65,17 @@ class _HomePage extends State<HomePage> {
         },
       ),
     );
+  }
+}
+
+void _showVersionChecker(BuildContext context) {
+  try {
+    NewVersion(
+      iOSId: 'net.bigmojo.distillers', //dummy IOS bundle ID
+      androidId: 'net.bigmojo.net.distillers', //dummy android ID
+    ).showAlertIfNecessary(context: context);
+  } catch (e) {
+    debugPrint("error=====>${e.toString()}");
   }
 }
 
