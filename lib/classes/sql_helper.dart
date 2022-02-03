@@ -97,18 +97,17 @@ class SQLHelper {
   }
 
   // Update an item by id
-  static Future<int> updateBatch(
-      int id, String title, String? description) async {
+  static Future<int> updateBatch(Batch batch) async {
     final db = await SQLHelper.db();
 
     final data = {
-      'name': title,
-      'description': description,
-      'createdAt': DateTime.now().toString()
+      'name': batch.name,
+      'description': batch.description,
+      'batchStartedDate': batch.batchStartedDate.toString()
     };
 
     final result =
-        await db.update('batch', data, where: "id = ?", whereArgs: [id]);
+        await db.update('batch', data, where: "id = ?", whereArgs: [batch.id]);
     return result;
   }
 

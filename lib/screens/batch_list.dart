@@ -47,6 +47,7 @@ class _BatchListState extends State<BatchList> {
 
       _titleController.text = batch.name;
       _descriptionController.text = batch.description;
+      selectedDate = batch.batchStartedDateAsDate;
     } else {
       _titleController.text = "";
       _descriptionController.text = "";
@@ -85,24 +86,45 @@ class _BatchListState extends State<BatchList> {
                   ),
                   const Text("date Batch Started"),
                   SfDateRangePicker(
-                      showActionButtons: false, onSelectionChanged: setDate),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // Save new journal
-                      if (batch == null) {
-                        await _addItem();
-                      } else {
-                        await _updateItem(batch.id);
-                      }
+                    showActionButtons: false,
+                    onSelectionChanged: setDate,
+                    initialSelectedDate: selectedDate,
+                    initialDisplayDate: selectedDate,
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          // Close the bottom sheet
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          // Save new journal
+                          if (batch == null) {
+                            await _addItem();
+                          } else {
+                            batch.name = _titleController.text;
+                            batch.description = _descriptionController.text;
+                            batch.batchStartedDate = selectedDate.toString();
+                            await _updateItem(batch);
+                          }
 
-                      // Clear the text fields
-                      _titleController.text = '';
-                      _descriptionController.text = '';
+                          // Clear the text fields
+                          _titleController.text = '';
+                          _descriptionController.text = '';
 
-                      // Close the bottom sheet
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(batch == null ? 'Create New' : 'Update'),
+                          // Close the bottom sheet
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(batch == null ? 'Create New' : 'Update'),
+                      ),
+                    ],
                   )
                 ],
               ),
@@ -117,9 +139,8 @@ class _BatchListState extends State<BatchList> {
   }
 
   // Update an existing journal
-  Future<void> _updateItem(int id) async {
-    await SQLHelper.updateBatch(
-        id, _titleController.text, _descriptionController.text);
+  Future<void> _updateItem(Batch theBatch) async {
+    await SQLHelper.updateBatch(theBatch);
     _refreshJournals();
   }
 
