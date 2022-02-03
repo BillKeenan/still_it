@@ -11,6 +11,7 @@ class SQLHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         name TEXT,
         description TEXT,
+        archived INTEGER,
         batchStartedDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )
@@ -56,7 +57,7 @@ class SQLHelper {
   static Future<sql.Database> db() async {
     return sql.openDatabase(
       'kindacode.db',
-      version: 2,
+      version: 3,
       onCreate: (sql.Database database, int version) async {
         await createTables(database);
       },
@@ -67,14 +68,15 @@ class SQLHelper {
   }
 
   // Create new item (journal)
-  static Future<int> createItem(
-      String name, String? descrption, DateTime selectedDate) async {
+  static Future<int> createBatch(
+      String name, String? description, DateTime selectedDate) async {
     final db = await SQLHelper.db();
 
     final data = {
       'name': name,
-      'description': descrption,
-      'batchStartedDate': selectedDate.toString()
+      'description': description,
+      'batchStartedDate': selectedDate.toString(),
+      'archived': 0
     };
     final id = await db.insert('batch', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -96,12 +98,12 @@ class SQLHelper {
 
   // Update an item by id
   static Future<int> updateBatch(
-      int id, String title, String? descrption) async {
+      int id, String title, String? description) async {
     final db = await SQLHelper.db();
 
     final data = {
       'name': title,
-      'description': descrption,
+      'description': description,
       'createdAt': DateTime.now().toString()
     };
 
@@ -177,7 +179,7 @@ class SQLHelper {
   // Read all items (journals)
   static Future<List<Batch>> getBatches() async {
     final db = await SQLHelper.db();
-    var maps = await db.query('batch', orderBy: "id");
+    var maps = await db.query('batch', orderBy: "id", where: "archived = 0");
 
     List<Batch> batches = [];
 
@@ -216,7 +218,7 @@ class SQLHelper {
 
   static upgradeDB(
       sql.Database database, int oldVersion, int newVersion) async {
-    if (oldVersion == 1 && newVersion == 2) {
+    if (oldVersion == 1) {
       await database.execute("""ALTER TABLE batch 
         ADD batchStartedDate TIMESTAMP
       """);
@@ -224,6 +226,23 @@ class SQLHelper {
       await database.execute("""UPDATE batch 
         set batchStartedDate  =  CURRENT_TIMESTAMP
       """);
+    } else if (oldVersion == 2) {
+      await database.execute("""ALTER TABLE batch 
+        ADD archived INTEGER
+      """);
+      await database.execute("""UPDATE batch 
+        set archived  =  0
+      """);
     }
+  }
+
+  static archiveBatch(int id) async {
+    final db = await SQLHelper.db();
+
+    final data = {'archived': 1};
+
+    final result =
+        await db.update('batch', data, where: "id = ?", whereArgs: [id]);
+    return result;
   }
 }

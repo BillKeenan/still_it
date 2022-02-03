@@ -5,12 +5,14 @@ class Batch {
   int id;
   String batchStartedDate;
   String createdAt;
+  String description;
 
   Batch({
     required this.name,
     required this.id,
     required this.batchStartedDate,
     required this.createdAt,
+    required this.description,
   });
 
   DateTime get batchStartedDateAsDate => DateTime.parse(batchStartedDate);
@@ -20,12 +22,14 @@ class Batch {
     int? id,
     String? batchStartedDate,
     String? createdAt,
+    String? description,
   }) {
     return Batch(
       name: name ?? this.name,
       id: id ?? this.id,
       batchStartedDate: batchStartedDate ?? this.batchStartedDate,
       createdAt: createdAt ?? this.createdAt,
+      description: description ?? this.description,
     );
   }
 
@@ -35,6 +39,7 @@ class Batch {
       'id': id,
       'batchStartedDate': batchStartedDate,
       'createdAt': createdAt,
+      'description': description,
     };
   }
 
@@ -44,6 +49,7 @@ class Batch {
       id: map['id']?.toInt() ?? 0,
       batchStartedDate: map['batchStartedDate'] ?? '',
       createdAt: map['createdAt'] ?? '',
+      description: map['description'] ?? '',
     );
   }
 
@@ -53,7 +59,7 @@ class Batch {
 
   @override
   String toString() {
-    return 'Batch(name: $name, id: $id, batchStartedDate: $batchStartedDate, createdAt: $createdAt)';
+    return 'Batch(name: $name, id: $id, batchStartedDate: $batchStartedDate, createdAt: $createdAt, description: $description)';
   }
 
   @override
@@ -64,7 +70,8 @@ class Batch {
         other.name == name &&
         other.id == id &&
         other.batchStartedDate == batchStartedDate &&
-        other.createdAt == createdAt;
+        other.createdAt == createdAt &&
+        other.description == description;
   }
 
   @override
@@ -72,7 +79,8 @@ class Batch {
     return name.hashCode ^
         id.hashCode ^
         batchStartedDate.hashCode ^
-        createdAt.hashCode;
+        createdAt.hashCode ^
+        description.hashCode;
   }
 
   DateTime get createdAtDate {

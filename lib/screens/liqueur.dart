@@ -35,8 +35,10 @@ class _LiqueurPageState extends State<LiqueurPage> {
         appBar: AppBar(
           title: const Text("Liqueur ABV Calculator"),
         ),
-        body: const SingleChildScrollView(child: MyCustomForm()),
-        resizeToAvoidBottomInset: false);
+        body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: const SingleChildScrollView(child: MyCustomForm())),
+        resizeToAvoidBottomInset: true);
   }
 }
 

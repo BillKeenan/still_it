@@ -40,13 +40,16 @@ class _BatchListState extends State<BatchList> {
 
   // This function will be triggered when the floating button is pressed
   // It will also be triggered when you want to update an item
-  void _showForm(int? id) async {
-    if (id != null) {
+  void _showForm(Batch? batch) async {
+    if (batch != null) {
       // id == null -> create new item
       // id != null -> update an existing item
-      final existingJournal =
-          _journals.firstWhere((element) => element.id == id);
-      _titleController.text = existingJournal.name;
+
+      _titleController.text = batch.name;
+      _descriptionController.text = batch.description;
+    } else {
+      _titleController.text = "";
+      _descriptionController.text = "";
     }
 
     showModalBottomSheet(
@@ -86,12 +89,10 @@ class _BatchListState extends State<BatchList> {
                   ElevatedButton(
                     onPressed: () async {
                       // Save new journal
-                      if (id == null) {
+                      if (batch == null) {
                         await _addItem();
-                      }
-
-                      if (id != null) {
-                        await _updateItem(id);
+                      } else {
+                        await _updateItem(batch.id);
                       }
 
                       // Clear the text fields
@@ -101,7 +102,7 @@ class _BatchListState extends State<BatchList> {
                       // Close the bottom sheet
                       Navigator.of(context).pop();
                     },
-                    child: Text(id == null ? 'Create New' : 'Update'),
+                    child: Text(batch == null ? 'Create New' : 'Update'),
                   )
                 ],
               ),
@@ -110,7 +111,7 @@ class _BatchListState extends State<BatchList> {
 
 // Insert a new journal to the database
   Future<void> _addItem() async {
-    await SQLHelper.createItem(
+    await SQLHelper.createBatch(
         _titleController.text, _descriptionController.text, selectedDate);
     _refreshJournals();
   }
@@ -144,39 +145,59 @@ class _BatchListState extends State<BatchList> {
             )
           : ListView.builder(
               itemCount: _journals.length,
-              itemBuilder: (context, index) => Card(
-                elevation: 5,
-                child: ListTile(
-                  leading: IconButton(
-                    icon: const Icon(
-                      Icons.search,
+              itemBuilder: (context, index) => Dismissible(
+                confirmDismiss: (DismissDirection dismissDirection) async {
+                  return await _showConfirmationDialog(context, 'archive') ==
+                      true;
+                },
+                direction: DismissDirection.startToEnd,
+                secondaryBackground: Container(),
+                background: Container(
+                    alignment: Alignment.centerLeft,
+                    color: Colors.red,
+                    child: const Icon(
+                      Icons.delete,
+                      size: 50,
+                    )),
+                key: ValueKey<Batch>(_journals[index]),
+                onDismissed: (DismissDirection direction) {
+                  SQLHelper.archiveBatch(_journals[index].id);
+                  _journals.removeAt(index);
+                },
+                child: Card(
+                  elevation: 5,
+                  child: ListTile(
+                    leading: IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                      ),
+                      iconSize: 50,
+                      color: Colors.green,
+                      splashColor: Colors.purple,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                BatchDetail(batch: _journals[index]),
+                          ),
+                        );
+                      },
                     ),
-                    iconSize: 50,
-                    color: Colors.green,
-                    splashColor: Colors.purple,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              BatchDetail(batch: _journals[index]),
-                        ),
-                      );
-                    },
-                  ),
-                  title: Text(_journals[index].name),
-                  subtitle: Text(DateFormat('MMM-dd')
-                      .format(_journals[index].batchStartedDateAsDate)),
-                  trailing: IconButton(
-                    icon: const Icon(
-                      Icons.edit,
+                    title: Text(_journals[index].name),
+                    subtitle: Text(DateFormat('MMM-dd')
+                        .format(_journals[index].batchStartedDateAsDate)),
+                    trailing: IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                      ),
+                      iconSize: 50,
+                      color: Colors.green,
+                      splashColor: Colors.purple,
+                      onPressed: () {
+                        _showForm(_journals[index]);
+                      },
                     ),
-                    iconSize: 50,
-                    color: Colors.green,
-                    splashColor: Colors.purple,
-                    onPressed: () {
-                      _showForm(_journals[index].id);
-                    },
                   ),
                 ),
               ),
@@ -185,6 +206,32 @@ class _BatchListState extends State<BatchList> {
         child: const Icon(Icons.add),
         onPressed: () => _showForm(null),
       ),
+    );
+  }
+
+  Future<bool?> _showConfirmationDialog(BuildContext context, String action) {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Do you want to $action this item?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.pop(context, true); // showDialog() returns true
+              },
+            ),
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.pop(context, false); // showDialog() returns false
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
