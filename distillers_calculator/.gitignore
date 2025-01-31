@@ -43,3 +43,43 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter/Dart specific files
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+generated_plugin_registrant.dart
+
+# iOS related
+ios/Flutter/.last_build_id
+ios/.symlinks/
+ios/Pods/
+ios/.generated/
+
+# Android related
+android/.gradle/
+android/app/debug.keystore
+
+# VS Code
+.vscode/
+
+# JetBrains (IntelliJ, Android Studio)
+.idea/
+*.iml
+
+# Xcode
+*.xcworkspace
+*.lock
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Miscellaneous
+*.log
+*.tmp
+*.swp
