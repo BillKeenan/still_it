@@ -8,7 +8,7 @@ import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class TempSGAdjust extends StatefulWidget {
-  const TempSGAdjust({Key? key}) : super(key: key);
+  const TempSGAdjust({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -22,10 +22,10 @@ class TempSGAdjust extends StatefulWidget {
   final String title = "Temperature Adjust";
 
   @override
-  _TempSGAdjust createState() => _TempSGAdjust();
+  TempSGAdjustPageState createState() => TempSGAdjustPageState();
 }
 
-class _TempSGAdjust extends State<TempSGAdjust> {
+class TempSGAdjustPageState extends State<TempSGAdjust> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -58,11 +58,10 @@ class SpecificGravityForm extends StatelessWidget {
   Function? getSG;
 
   SpecificGravityForm({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
-  SpecificGravityForm.withCallback({Key? key, required Function this.getSG})
-      : super(key: key);
+  SpecificGravityForm.withCallback({super.key, required Function this.getSG});
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -133,10 +132,10 @@ class SpecificGravityForm extends StatelessWidget {
               child: TextFormField(
                 controller: answerController,
                 onTap: () {
+                  var messenger = ScaffoldMessenger.of(context);
                   Clipboard.setData(ClipboardData(text: answerController.text))
-                      .then((value) {
-                    //only if ->
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      .then((_) {
+                    messenger.showSnackBar(snackBar);
                   });
                 },
                 readOnly: true,

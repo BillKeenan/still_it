@@ -18,13 +18,13 @@ class SGPage extends StatefulWidget {
 
   final String title = "Volume";
 
-  const SGPage({Key? key}) : super(key: key);
+  const SGPage({super.key});
 
   @override
-  _SGPageState createState() => _SGPageState();
+  SGPageState createState() => SGPageState();
 }
 
-class _SGPageState extends State<SGPage> {
+class SGPageState extends State<SGPage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -53,7 +53,7 @@ class _SGPageState extends State<SGPage> {
 
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {

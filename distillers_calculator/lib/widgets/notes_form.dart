@@ -10,15 +10,13 @@ class NotesForm extends StatefulWidget {
   final List<TextNote> notes = [];
 
   NotesForm({
-    Key? key,
+    super.key,
     required this.batch,
     required List<TextNote> notes,
-  }) : super(key: key);
+  });
 
   @override
-  NotesFormState createState() {
-    return NotesFormState();
-  }
+  NotesFormState createState() => NotesFormState();
 }
 
 // Create a corresponding State class.

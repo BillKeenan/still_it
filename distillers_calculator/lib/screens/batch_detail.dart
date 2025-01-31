@@ -26,12 +26,12 @@ import 'package:uuid/uuid.dart';
 class BatchDetail extends StatefulWidget {
   final Batch batch;
 
-  const BatchDetail({required this.batch, Key? key}) : super(key: key);
+  const BatchDetail({required this.batch, super.key});
   @override
-  _BatchDetailState createState() => _BatchDetailState();
+  BatchDetailState createState() => BatchDetailState();
 }
 
-class _BatchDetailState extends State<BatchDetail> {
+class BatchDetailState extends State<BatchDetail> {
   final _image = [];
   final _picker = ImagePicker();
 
@@ -267,7 +267,7 @@ class _BatchDetailState extends State<BatchDetail> {
   void _saveImage(File selectedFile) {
     _image.add(selectedFile);
     SQLHelper.saveImageNote(widget.batch.id, selectedFile.path);
-    dev.log("added image:" + selectedFile.path);
+    dev.log("added image:${selectedFile.path}");
   }
 
   _imgFromCamera(ImageSource source) async {

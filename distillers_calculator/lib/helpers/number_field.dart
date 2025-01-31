@@ -12,13 +12,13 @@ class NumberFieldHelper {
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         validator: (value) {
           if (value!.isEmpty) {
-            return 'Please enter ' + labelText;
+            return 'Please enter $labelText';
           }
           if (min != null && num.parse(value) < min) {
-            return 'number can not be less than ' + min.toString();
+            return 'number can not be less than $min';
           }
           if (max != null && num.parse(value) > max) {
-            return 'number can not be more than ' + max.toString();
+            return 'number can not be more than $max';
           }
 
           return null;

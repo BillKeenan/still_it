@@ -41,6 +41,9 @@ class ImageOverlay extends ModalRoute<void> {
           type: MaterialType.transparency,
           // make sure that the overlay content is not cut off
           child: PinchZoom(
+            maxScale: 2.5,
+            onZoomStart: () {},
+            onZoomEnd: () {},
             child: Image.asset(
               image.imagePath,
               //fit: BoxFit.cover,
@@ -48,9 +51,6 @@ class ImageOverlay extends ModalRoute<void> {
               //width: double.infinity,
               alignment: Alignment.center,
             ),
-            maxScale: 2.5,
-            onZoomStart: () {},
-            onZoomEnd: () {},
           ),
         ));
   }

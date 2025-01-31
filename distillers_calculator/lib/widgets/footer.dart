@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class _FooterMenuState extends State<FooterMenu> {
+class FooterMenuState extends State<FooterMenu> {
   int _selectedIndex = 0;
 
-  _FooterMenuState(); //constructor
+  FooterMenuState(); //constructor
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,5 +41,5 @@ class FooterMenu extends StatefulWidget {
   }
 
   @override
-  _FooterMenuState createState() => _FooterMenuState();
+  FooterMenuState createState() => FooterMenuState();
 }
