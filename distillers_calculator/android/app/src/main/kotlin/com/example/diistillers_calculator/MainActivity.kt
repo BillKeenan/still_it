@@ -1,4 +1,4 @@
-package com.example.diistillers_calculator
+package net.bigmojo.net.distillers
 
 import io.flutter.embedding.android.FlutterActivity
 

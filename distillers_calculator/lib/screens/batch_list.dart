@@ -7,13 +7,13 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'batch_detail.dart';
 
 class BatchList extends StatefulWidget {
-  const BatchList({Key? key}) : super(key: key);
+  const BatchList({super.key});
 
   @override
-  _BatchListState createState() => _BatchListState();
+  BatchListState createState() => BatchListState();
 }
 
-class _BatchListState extends State<BatchList> {
+class BatchListState extends State<BatchList> {
   // All journals
   List<Batch> _journals = [];
 
@@ -119,6 +119,7 @@ class _BatchListState extends State<BatchList> {
                           _titleController.text = '';
                           _descriptionController.text = '';
 
+                          if (!mounted) return;
                           // Close the bottom sheet
                           Navigator.of(context).pop();
                         },
@@ -148,6 +149,7 @@ class _BatchListState extends State<BatchList> {
   // ignore: unused_element
   void _deleteItem(int id) async {
     await SQLHelper.deleteItem(id);
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted a journal!'),
     ));
@@ -168,6 +170,7 @@ class _BatchListState extends State<BatchList> {
               itemCount: _journals.length,
               itemBuilder: (context, index) => Dismissible(
                 confirmDismiss: (DismissDirection dismissDirection) async {
+                  if (!mounted) return false;
                   return await _showConfirmationDialog(context, 'archive') ==
                       true;
                 },
@@ -181,9 +184,12 @@ class _BatchListState extends State<BatchList> {
                       size: 50,
                     )),
                 key: ValueKey<Batch>(_journals[index]),
-                onDismissed: (DismissDirection direction) {
-                  SQLHelper.archiveBatch(_journals[index].id);
-                  _journals.removeAt(index);
+                onDismissed: (DismissDirection direction) async {
+                  if (!mounted) return;
+                  await SQLHelper.archiveBatch(_journals[index].id);
+                  setState(() {
+                    _journals.removeAt(index);
+                  });
                 },
                 child: Card(
                   elevation: 5,

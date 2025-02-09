@@ -5,7 +5,7 @@ import '../util/maths.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class LiqueurPage extends StatefulWidget {
-  const LiqueurPage({Key? key}) : super(key: key);
+  const LiqueurPage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -19,10 +19,10 @@ class LiqueurPage extends StatefulWidget {
   final String title = "Volume";
 
   @override
-  _LiqueurPageState createState() => _LiqueurPageState();
+  LiqueurPageState createState() => LiqueurPageState();
 }
 
-class _LiqueurPageState extends State<LiqueurPage> {
+class LiqueurPageState extends State<LiqueurPage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -44,7 +44,7 @@ class _LiqueurPageState extends State<LiqueurPage> {
 
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {

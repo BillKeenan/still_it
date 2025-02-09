@@ -6,7 +6,7 @@ import 'package:distillers_calculator/theme/colors/light_colors.dart';
 //import 'package:distillers_calculator/screens/home/maths.dart';
 
 class DilutionPage extends StatefulWidget {
-  const DilutionPage({Key? key}) : super(key: key);
+  const DilutionPage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -20,10 +20,10 @@ class DilutionPage extends StatefulWidget {
   final String title = "Volume";
 
   @override
-  _DiluttionPageState createState() => _DiluttionPageState();
+  DilutionPageState createState() => DilutionPageState();
 }
 
-class _DiluttionPageState extends State<DilutionPage> {
+class DilutionPageState extends State<DilutionPage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -53,7 +53,7 @@ class _DiluttionPageState extends State<DilutionPage> {
 
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {

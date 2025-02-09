@@ -12,10 +12,10 @@ import 'package:distillers_calculator/widgets/still_header.dart';
 import 'package:distillers_calculator/widgets/task_column.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePage createState() => _HomePage();
+  HomePageState createState() => HomePageState();
 
   static Text subheading(String title) {
     return Text(
@@ -29,7 +29,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePage extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();

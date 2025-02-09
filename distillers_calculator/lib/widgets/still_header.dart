@@ -4,7 +4,7 @@ import 'package:distillers_calculator/theme/colors/light_colors.dart';
 import 'top_container.dart';
 
 class StillHeader extends StatelessWidget {
-  const StillHeader({Key? key}) : super(key: key);
+  const StillHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

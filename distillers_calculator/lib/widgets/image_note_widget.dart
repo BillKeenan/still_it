@@ -9,11 +9,10 @@ class ImageNoteWidget extends StatelessWidget {
 
   final Function callback;
   const ImageNoteWidget(
-      {Key? key,
+      {super.key,
       required this.note,
       required this.height,
-      required this.callback})
-      : super(key: key);
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +31,12 @@ class ImageNoteWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
                       padding: const EdgeInsets.all(00),
+                      color: LightColors.kDarkYellow,
                       child: Image.asset(
                         note.imagePath,
                         fit: BoxFit.cover,
                         height: height,
-                      ),
-                      color: LightColors.kDarkYellow))))
+                      )))))
     ]);
   }
 }

@@ -10,11 +10,10 @@ class TextNoteWidget extends StatelessWidget {
   final Function callback;
 
   const TextNoteWidget(
-      {Key? key,
+      {super.key,
       required this.note,
       required this.height,
-      required this.callback})
-      : super(key: key);
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +32,8 @@ class TextNoteWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
               child: Container(
                   padding: const EdgeInsets.all(20),
-                  child: Text(note.note),
-                  color: LightColors.kDarkYellow)),
+                  color: LightColors.kDarkYellow,
+                  child: Text(note.note))),
         ),
       )
     ]);
