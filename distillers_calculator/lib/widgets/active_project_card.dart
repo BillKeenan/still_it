@@ -7,12 +7,12 @@ class ActiveProjectsCard extends StatelessWidget {
   final String subtitle;
 
   const ActiveProjectsCard({
-    Key? key,
+    super.key,
     required this.cardColor,
     required this.loadingPercent,
     required this.title,
     required this.subtitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

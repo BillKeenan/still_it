@@ -11,7 +11,7 @@ class TextFieldHelper {
       child: TextFormField(
         validator: (value) {
           if (value!.isEmpty) {
-            return 'Please enter ' + labelText;
+            return 'Please enter $labelText';
           }
 
           return null;

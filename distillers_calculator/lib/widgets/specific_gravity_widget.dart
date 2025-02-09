@@ -9,8 +9,7 @@ class SpecificGravityWidget extends StatelessWidget {
   final double height;
 
   const SpecificGravityWidget(
-      {Key? key, required this.note, required this.height})
-      : super(key: key);
+      {super.key, required this.note, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +30,9 @@ class SpecificGravityWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50),
                           child: Container(
                               padding: const EdgeInsets.all(20),
+                              color: LightColors.kLightGreen,
                               child: Text(Maths.roundToXDecimals(note.sg.sg, 4)
-                                  .toString()),
-                              color: LightColors.kLightGreen))))))
+                                  .toString())))))))
     ]);
   }
 }

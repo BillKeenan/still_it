@@ -11,14 +11,14 @@ class TaskColumn extends StatelessWidget {
 
   Widget onTapNav;
   TaskColumn({
-    Key? key,
+    super.key,
     required this.icon,
     required this.iconBackgroundColor,
     required this.title,
     required this.subtitle,
     required this.iconSize,
     required this.onTapNav,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
