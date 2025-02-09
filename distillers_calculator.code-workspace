@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "distillers_calculator"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}
