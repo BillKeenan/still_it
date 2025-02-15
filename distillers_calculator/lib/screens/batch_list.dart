@@ -3,6 +3,7 @@ import 'package:distillers_calculator/model/batch.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import 'batch_detail.dart';
 
@@ -13,7 +14,33 @@ class BatchList extends StatefulWidget {
   BatchListState createState() => BatchListState();
 }
 
+final GlobalKey globalButtonKey = GlobalKey();
+
 class BatchListState extends State<BatchList> {
+  void showTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: targets,
+      colorShadow: Colors.pink,
+      textSkip: "SKIP",
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      onFinish: () {},
+      onClickTarget: (target) {
+        // final w = target.keyTarget?.currentWidget;
+        // if (w is TaskColumn) {
+        //   w.doClick(context);
+        // }
+      },
+      onSkip: () {
+        return true;
+      },
+      onClickOverlay: (target) {},
+    )..show(context: context);
+  }
+
+  late TutorialCoachMark tutorialCoachMark;
+  List<TargetFocus> targets = <TargetFocus>[];
+
   // All journals
   List<Batch> _journals = [];
 
@@ -32,7 +59,11 @@ class BatchListState extends State<BatchList> {
   @override
   void initState() {
     super.initState();
+
     _refreshJournals(); // Loading the diary when the app starts
+
+    initTargets();
+    showTutorial();
   }
 
   final TextEditingController _titleController = TextEditingController();
@@ -230,6 +261,7 @@ class BatchListState extends State<BatchList> {
               ),
             ),
       floatingActionButton: FloatingActionButton(
+        key: globalButtonKey,
         child: const Icon(Icons.add),
         onPressed: () => _showForm(null),
       ),
@@ -265,5 +297,40 @@ class BatchListState extends State<BatchList> {
   void setDate(
       DateRangePickerSelectionChangedArgs dateRangePickerSelectionChangedArgs) {
     selectedDate = dateRangePickerSelectionChangedArgs.value;
+  }
+
+  void initTargets() {
+    targets.add(TargetFocus(
+        identify: "Target 1",
+        keyTarget: globalButtonKey,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Batch Logs!",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Try out the Batch Log, keep track of your ferment!",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 5));
   }
 }
